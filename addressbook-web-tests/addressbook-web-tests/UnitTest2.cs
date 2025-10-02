@@ -10,7 +10,7 @@ namespace addressbook_web_tests
         private IWebDriver _driver;
         private StringBuilder _verificationErrors;
         private string _baseUrl;
-        private bool _acceptNextAlert = true;
+        
         
         [SetUp]
         public void SetupTest()
@@ -39,6 +39,11 @@ namespace addressbook_web_tests
         public void UserCanLoginAndCreateGroup()
         {
             _driver.Navigate().GoToUrl(_baseUrl);
+            if (IsElementPresent(By.Name("user")))
+            {
+                _driver.FindElement(By.Name("user")).Clear();
+                _driver.FindElement(By.Name("user")).SendKeys("Admin");
+            }
             _driver.FindElement(By.Name("user")).Click();
             _driver.FindElement(By.Name("user")).Clear();
             _driver.FindElement(By.Name("user")).SendKeys("Admin");
@@ -77,33 +82,9 @@ namespace addressbook_web_tests
         }
         
        
-        private bool IsAlertPresent()
-        {
-            try
-            {
-                _driver.SwitchTo().Alert();
-                return true;
-            }
-            catch (NoAlertPresentException)
-            {
-                return false;
-            }
-        }
         
-        private string? CloseAlertAndGetItsText() {
-            try {
-                var alert = _driver.SwitchTo().Alert();
-                var alertText = alert.Text;
-                if (_acceptNextAlert) {
-                    alert.Accept();
-                } else {
-                    alert.Dismiss();
-                }
-                return alertText;
-            } finally {
-                _acceptNextAlert = true;
-            }
-        }
+        
+       
         #pragma warning restore CS0169
         #pragma warning restore CS0649
     }
