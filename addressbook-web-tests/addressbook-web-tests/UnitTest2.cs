@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class UntitledTestCase
+    public class AddressBookTests
     {
         private IWebDriver _driver;
         private StringBuilder _verificationErrors;
@@ -36,7 +36,7 @@ namespace addressbook_web_tests
         }
         
         [Test]
-        public void TheUntitledTestCaseTest()
+        public void UserCanLoginAndCreateGroup()
         {
             _driver.Navigate().GoToUrl(_baseUrl);
             _driver.FindElement(By.Name("user")).Click();
