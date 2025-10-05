@@ -5,7 +5,7 @@ using OpenQA.Selenium.Chrome;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class AddressBookTests
+    public class GroupCreationTests
     {
         private IWebDriver _driver;
         private StringBuilder _verificationErrors;
