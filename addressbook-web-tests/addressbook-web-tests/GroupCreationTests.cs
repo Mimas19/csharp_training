@@ -38,32 +38,72 @@ namespace addressbook_web_tests
         [Test]
         public void UserCanLoginAndCreateGroup()
         {
-            _driver.Navigate().GoToUrl(_baseUrl);
+            OpenHomePage();
             if (IsElementPresent(By.Name("user")))
             {
                 _driver.FindElement(By.Name("user")).Clear();
                 _driver.FindElement(By.Name("user")).SendKeys("Admin");
             }
-            _driver.FindElement(By.Name("user")).Click();
-            _driver.FindElement(By.Name("user")).Clear();
-            _driver.FindElement(By.Name("user")).SendKeys("Admin");
-            _driver.FindElement(By.Name("pass")).Clear();
-            _driver.FindElement(By.Name("pass")).SendKeys("secret");
-            _driver.FindElement(By.XPath("//input[@value='Login']")).Click();
-            _driver.FindElement(By.LinkText("groups")).Click();
-            _driver.FindElement(By.Name("new")).Click();
-            _driver.FindElement(By.Name("group_name")).Click();
-            _driver.FindElement(By.Name("group_name")).Clear();
-            _driver.FindElement(By.Name("group_name")).SendKeys("Moon");
-            _driver.FindElement(By.Name("group_header")).Clear();
-            _driver.FindElement(By.Name("group_header")).SendKeys("header_3");
-            _driver.FindElement(By.Name("group_footer")).Clear();
-            _driver.FindElement(By.Name("group_footer")).SendKeys("footer_3");
-            _driver.FindElement(By.Name("submit")).Click();
-            _driver.FindElement(By.LinkText("group page")).Click();
+            Login(new AccountData("admin","secret"));
+            GoToGroupsPPage();
+            InitNewGroupCreation();
+            FillGroupForm(new GroupData("group_1", "header_name1", "footer_name1"));
+            SubmitGroupCreation();
+            ReturnToGroupsPage();
+            Logout();
+        }
+
+        private void Logout()
+        {
             _driver.FindElement(By.LinkText("Logout")).Click();
         }
-        
+
+        private void ReturnToGroupsPage()
+        {
+            _driver.FindElement(By.LinkText("group page")).Click();
+        }
+
+        private void SubmitGroupCreation()
+        {
+            _driver.FindElement(By.Name("submit")).Click();
+        }
+
+        private void FillGroupForm(GroupData group)
+        {
+            _driver.FindElement(By.Name("group_name")).Click();
+            _driver.FindElement(By.Name("group_name")).Clear();
+            _driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
+            _driver.FindElement(By.Name("group_header")).Clear();
+            _driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
+            _driver.FindElement(By.Name("group_footer")).Clear();
+            _driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+        }
+
+        private void InitNewGroupCreation()
+        {
+            _driver.FindElement(By.Name("new")).Click();
+        }
+
+        private void GoToGroupsPPage()
+        {
+            _driver.FindElement(By.LinkText("groups")).Click();
+        }
+
+        private void Login(AccountData account)
+        {
+            _driver.FindElement(By.Name("user")).Click();
+            _driver.FindElement(By.Name("user")).Clear();
+            _driver.FindElement(By.Name("user")).SendKeys(account.Username);
+            _driver.FindElement(By.Name("pass")).Clear();
+            _driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+            _driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+        }
+
+        private void OpenHomePage()
+        {
+            _driver.Navigate().GoToUrl(_baseUrl);
+        }
+
         // Добавила это, чтобы убрать предупреждения о неиспользуемых методах (нагуглила)
         #pragma warning disable CS0169
         #pragma warning disable CS0649
@@ -81,10 +121,6 @@ namespace addressbook_web_tests
             }
         }
         
-       
-        
-        
-       
         #pragma warning restore CS0169
         #pragma warning restore CS0649
     }
