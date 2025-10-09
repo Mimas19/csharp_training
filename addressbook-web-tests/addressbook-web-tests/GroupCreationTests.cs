@@ -39,11 +39,6 @@ namespace addressbook_web_tests
         public void UserCanLoginAndCreateGroup()
         {
             OpenHomePage();
-            if (IsElementPresent(By.Name("user")))
-            {
-                _driver.FindElement(By.Name("user")).Clear();
-                _driver.FindElement(By.Name("user")).SendKeys("Admin");
-            }
             Login(new AccountData("admin","secret"));
             GoToGroupsPPage();
             InitNewGroupCreation();
