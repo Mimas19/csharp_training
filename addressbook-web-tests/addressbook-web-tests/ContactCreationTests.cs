@@ -45,7 +45,7 @@ namespace addressbook_web_tests
         public void UserCanLoginAndCreateContacts()
         {
             OpenHomePage();
-            Login(new AccountData("admin", "admin"));
+            Login(new AccountData("admin", "secret"));
             InitNewContactCreation();
             GoToAddressbookEdit();
             FillContactForm(new ContactData("Sara", "Mislimova", "+79614072727", 
