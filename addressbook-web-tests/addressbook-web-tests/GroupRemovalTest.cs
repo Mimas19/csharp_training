@@ -12,17 +12,17 @@ namespace addressbook_web_tests
     [TestFixture]
     public class GroupRemovalTests
     {
-        private IWebDriver driver;
-        private StringBuilder verificationErrors;
-        private string baseURL;
-        private bool acceptNextAlert = true;
+        private IWebDriver _driver;
+        private StringBuilder _verificationErrors;
+        private string _baseUrl;
+        private bool _acceptNextAlert = true;
         
         [SetUp]
         public void SetupTest()
         {
-            driver = new ChromeDriver();
-            baseURL = "http://localhost/addressbook";
-            verificationErrors = new StringBuilder();
+            _driver = new ChromeDriver();
+            _baseUrl = "http://localhost/addressbook";
+            _verificationErrors = new StringBuilder();
         }
         
         [TearDown]
@@ -30,13 +30,13 @@ namespace addressbook_web_tests
         {
             try
             {
-                driver.Quit();
+                _driver.Quit();
             }
             catch (Exception)
             {
                 // Ignore errors if unable to close the browser
             }
-            Assert.AreEqual("", verificationErrors.ToString());
+            Assert.That(_verificationErrors.ToString(), Is.EqualTo(""));
         }
         
         [Test]
@@ -51,40 +51,40 @@ namespace addressbook_web_tests
 
         private void ReturnToGroupsPage()
         {
-            driver.FindElement(By.LinkText("group page")).Click();
+            _driver.FindElement(By.LinkText("group page")).Click();
         }
 
         private void SelectAndDeleteGroups()
         {
-            driver.FindElement(By.XPath("//input[@name='selected[]'])[3]")).Click();
+            _driver.FindElement(By.XPath("//input[@name='selected[]'])[3]")).Click();
             
         }
 
         private void GoToGroupsPage()
         {
-            driver.FindElement(By.LinkText("groups")).Click();
-            driver.Navigate().GoToUrl("http://localhost/addressbook/group.php");
+            _driver.FindElement(By.LinkText("groups")).Click();
+            _driver.Navigate().GoToUrl("http://localhost/addressbook/group.php");
         }
 
         private void Login(AccountData account)
         {
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(account.Username);
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(account.Password);
-            driver.FindElement(By.XPath("//input[@value='Login']")).Click();
+            _driver.FindElement(By.Name("user")).Clear();
+            _driver.FindElement(By.Name("user")).SendKeys(account.Username);
+            _driver.FindElement(By.Name("pass")).Clear();
+            _driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+            _driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
         private void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL);
+            _driver.Navigate().GoToUrl(_baseUrl);
         }
 
         private bool IsElementPresent(By by)
         {
             try
             {
-                driver.FindElement(by);
+                _driver.FindElement(by);
                 return true;
             }
             catch (NoSuchElementException)
@@ -97,7 +97,7 @@ namespace addressbook_web_tests
         {
             try
             {
-                driver.SwitchTo().Alert();
+                _driver.SwitchTo().Alert();
                 return true;
             }
             catch (NoAlertPresentException)
@@ -108,16 +108,16 @@ namespace addressbook_web_tests
         
         private string CloseAlertAndGetItsText() {
             try {
-                IAlert alert = driver.SwitchTo().Alert();
+                IAlert alert = _driver.SwitchTo().Alert();
                 string alertText = alert.Text;
-                if (acceptNextAlert) {
+                if (_acceptNextAlert) {
                     alert.Accept();
                 } else {
                     alert.Dismiss();
                 }
                 return alertText;
             } finally {
-                acceptNextAlert = true;
+                _acceptNextAlert = true;
             }
         }
     }
