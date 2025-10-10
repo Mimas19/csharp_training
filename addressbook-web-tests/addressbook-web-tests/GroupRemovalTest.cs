@@ -21,7 +21,7 @@ namespace addressbook_web_tests
         public void SetupTest()
         {
             driver = new ChromeDriver();
-            baseURL = "http://localhost";
+            baseURL = "http://localhost/addressbook";
             verificationErrors = new StringBuilder();
         }
         
@@ -77,7 +77,7 @@ namespace addressbook_web_tests
 
         private void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL + "/addressbook/edit.php");
+            driver.Navigate().GoToUrl(baseURL);
         }
 
         private bool IsElementPresent(By by)
