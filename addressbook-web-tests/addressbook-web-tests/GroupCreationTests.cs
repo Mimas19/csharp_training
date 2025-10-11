@@ -10,13 +10,13 @@ namespace addressbook_web_tests
         [Test]
         public void UserCanLoginAndCreateGroup()
         {
-            OpenHomePage();
-            Login(new AccountData("admin","secret"));
-            GoToGroupsPage();
-            InitNewGroupCreation();
-            FillGroupForm(new GroupData("group_1", "header_name1", "footer_name1"));
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
+            navigator.OpenHomePage();
+            loginHelper.Login(new AccountData("admin","secret"));
+            navigator.GoToGroupsPage();
+            groupHelper.InitNewGroupCreation();
+            groupHelper.FillGroupForm(new GroupData("group_1", "header_name1", "footer_name1"));
+            groupHelper.SubmitGroupCreation();
+            groupHelper.ReturnToGroupsPage();
             Logout();
         }
     }
