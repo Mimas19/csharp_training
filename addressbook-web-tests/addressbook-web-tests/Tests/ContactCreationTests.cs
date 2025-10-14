@@ -53,8 +53,6 @@ namespace addressbook_web_tests
             SubmitContactCreation();
             GoToHomePage();
             GoToAddressbookPage();
-            Logout();
-          
         }
 
         private void Logout()

@@ -8,17 +8,39 @@ namespace addressbook_web_tests;
 
 public class GroupHelper : HelperBase
 {
-   public GroupHelper(IWebDriver driver) : base(driver)
+   public GroupHelper(ApplicationManager manager) 
+       : base(manager)
     {
-        this._driver = driver;
+    }
+
+    public GroupHelper Create(GroupData group)
+    {
+        manager.Navigator.GoToGroupsPage();
+        
+        InitNewGroupCreation();
+        FillGroupForm(group);
+        SubmitGroupCreation();
+        ReturnToGroupsPage();
+        return this;
     }
     
-    public void InitNewGroupCreation()
+    public GroupHelper Remove(int i)
+    {
+        manager.Navigator.GoToGroupsPage();
+        SelectGroup(1);
+        RemoveGroup();
+        ReturnToGroupsPage();
+        return this;
+    }
+   
+    public GroupHelper InitNewGroupCreation()
     {
         _driver.FindElement(By.Name("new")).Click();
+        return this;
     }
     
-    public void FillGroupForm(GroupData group)
+    
+    public GroupHelper FillGroupForm(GroupData group)
     {
         _driver.FindElement(By.Name("group_name")).Click();
         _driver.FindElement(By.Name("group_name")).Clear();
@@ -27,28 +49,32 @@ public class GroupHelper : HelperBase
         _driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
         _driver.FindElement(By.Name("group_footer")).Clear();
         _driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+        return this;
     }
     
-    public void SubmitGroupCreation()
+    public GroupHelper SubmitGroupCreation()
     {
         _driver.FindElement(By.Name("submit")).Click();
+        return this;
     }
 
-    public void RemoveGroup()
+    public GroupHelper RemoveGroup()
     {
         _driver.FindElement(By.XPath("//input[@type='submit' and @name='delete' and @value='Delete group(s)']"))
             .Click();
+        return this;
     }
     
-    public void SelectGroup(int index)
+    public GroupHelper SelectGroup(int index)
     {
         _driver.FindElement(By.XPath("//span[" + index + "]/input")).Click();
+        return this;
     }
 
 
-    public void ReturnToGroupsPage()
+    public GroupHelper ReturnToGroupsPage()
     {
         _driver.FindElement(By.LinkText("group page")).Click();
+        return this;
     }
-
 }

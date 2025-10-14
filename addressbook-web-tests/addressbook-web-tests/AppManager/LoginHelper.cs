@@ -11,9 +11,9 @@ public class LoginHelper : HelperBase
 {
     private readonly IWebDriver _driver;
 
-    public LoginHelper(IWebDriver driver) : base(driver)
+    public LoginHelper(ApplicationManager manager) : 
+        base(manager)
     {
-        this._driver = driver;
     }
     
     public void Login(AccountData account)

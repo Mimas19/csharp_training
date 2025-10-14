@@ -12,7 +12,7 @@ public class NavigationHelper : HelperBase
     private readonly string baseURL;
     private string _baseURL;
 
-    public NavigationHelper(IWebDriver driver, string baseURL) : base(driver)
+    public NavigationHelper(ApplicationManager manager, string _baseURL) : base(manager)
     {
        this._baseURL = baseURL;
     }
