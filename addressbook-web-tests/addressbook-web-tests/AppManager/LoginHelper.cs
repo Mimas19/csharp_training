@@ -9,8 +9,6 @@ namespace addressbook_web_tests;
 
 public class LoginHelper : HelperBase
 {
-    private readonly IWebDriver _driver;
-
     public LoginHelper(ApplicationManager manager) : 
         base(manager)
     {

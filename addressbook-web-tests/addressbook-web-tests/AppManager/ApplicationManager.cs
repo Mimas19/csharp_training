@@ -18,7 +18,7 @@ public class ApplicationManager
     public ApplicationManager()
     {
         _driver = new ChromeDriver();
-        _baseUrl = "http://localhost";
+        _baseUrl = "http://localhost/addressbook/";
         loginHelper = new LoginHelper(this);
         navigator = new NavigationHelper(this, _baseUrl);
         groupHelper = new GroupHelper(this);
