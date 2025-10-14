@@ -9,12 +9,10 @@ namespace addressbook_web_tests;
 
 public class NavigationHelper : HelperBase
 {
-    private readonly string baseURL;
     private string _baseURL;
-
-    public NavigationHelper(ApplicationManager manager, string _baseURL) : base(manager)
+    public NavigationHelper(ApplicationManager manager, string baseURL) : base(manager)
     {
-       this._baseURL = baseURL;
+        this._baseURL = baseURL;
     }
     public void OpenHomePage()
     {
