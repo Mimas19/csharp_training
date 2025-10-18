@@ -23,6 +23,8 @@ namespace addressbook_web_tests
             _driver = new ChromeDriver();
             _baseUrl = "http://localhost/addressbook";
             _verificationErrors = new StringBuilder();
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            
         }
         
         [TearDown]
@@ -61,7 +63,12 @@ namespace addressbook_web_tests
 
         private void FindAndSelectContact()
         {
-            _driver.FindElement(By.Name("selected[]"));
+            var checkboxes = _driver.FindElements(By.Name("selected[]"));
+            foreach (var checkbox in checkboxes)
+            {
+                if (!checkbox.Selected)
+                    checkbox.Click();
+            }
         }
 
         private void Login(AccountData account)

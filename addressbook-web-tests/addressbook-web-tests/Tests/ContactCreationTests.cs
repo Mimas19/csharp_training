@@ -25,6 +25,7 @@ namespace addressbook_web_tests
             _driver = new ChromeDriver();
             _baseUrl = "http://localhost/addressbook";
             _verificationErrors = new StringBuilder();
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
         
         [TearDown]
