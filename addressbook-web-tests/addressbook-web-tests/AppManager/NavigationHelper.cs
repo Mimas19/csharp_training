@@ -23,4 +23,15 @@ public class NavigationHelper : HelperBase
     {
         _driver.FindElement(By.LinkText("groups")).Click();
     }
+    
+    public void GoToAddressbookEdit()
+    {
+        _driver.Navigate().GoToUrl("http://localhost/addressbook/edit.php");
+    }
+
+    public void GoToAddressbookPage()
+    {
+        _driver.Navigate().GoToUrl("http://localhost/addressbook/index.php");
+    }
+
 }
