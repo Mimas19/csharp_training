@@ -6,6 +6,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Text.RegularExpressions;
 using System.Threading;
+using OpenQA.Selenium;
 
 
 namespace addressbook_web_tests;
@@ -27,6 +28,17 @@ public class ContactHelper : HelperBase
         return this;
     }
     
+    public ContactHelper Modify(int i, ContactData newData)
+    {
+        manager.Navigator.OpenHomePage();
+        FindAndSelectContact();
+        InitContactModification();
+        FillContactForm(newData);
+        SubmitContactModification();
+        return this;
+
+    }
+
     public ContactHelper InitNewContactCreation()
     {
         _driver.FindElement(By.LinkText("add new")).Click();
@@ -78,4 +90,17 @@ public class ContactHelper : HelperBase
         this.DeleteContact();
         return this;
     }
+  
+    public ContactHelper InitContactModification()
+    {
+        _driver.FindElement(By.XPath("//img[@src='icons/pencil.png' and @title='Edit']")).Click();
+        return this;
+    }
+    
+    public ContactHelper SubmitContactModification()
+    {
+        _driver.FindElement(By.Name("update")).Click();
+        return this;
+    }
+
 }
