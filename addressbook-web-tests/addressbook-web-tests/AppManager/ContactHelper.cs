@@ -19,7 +19,7 @@ public class ContactHelper : HelperBase
 
     public ContactHelper CreateContact(ContactData contact)
     {
-        manager.Navigator.GoToHomePage();
+        manager.Navigator.OpenHomePage();
         
         InitNewContactCreation();
         FillContactForm(contact);
@@ -74,8 +74,8 @@ public class ContactHelper : HelperBase
 
     public ContactHelper Remove(int i)
     {
-        .FindAndSelectContact();
-            .DeleteContact();
+        this.FindAndSelectContact();
+        this.DeleteContact();
         return this;
     }
 }

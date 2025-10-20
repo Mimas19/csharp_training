@@ -24,10 +24,21 @@ public class GroupHelper : HelperBase
         return this;
     }
     
+    public GroupHelper Modify(int i, GroupData newData)
+    {
+        manager.Navigator.GoToGroupsPage();
+        SelectGroup(i);
+        InitGroupModification();
+        FillGroupForm(newData);
+        SubmitGroupModification();
+        ReturnToGroupsPage();
+        return this;
+    }
+  
     public GroupHelper Remove(int i)
     {
         manager.Navigator.GoToGroupsPage();
-        SelectGroup(1);
+        SelectGroup(i);
         RemoveGroup();
         ReturnToGroupsPage();
         return this;
@@ -75,6 +86,18 @@ public class GroupHelper : HelperBase
     public GroupHelper ReturnToGroupsPage()
     {
         _driver.FindElement(By.LinkText("group page")).Click();
+        return this;
+    }
+    
+    public GroupHelper SubmitGroupModification()
+    {
+        _driver.FindElement(By.Name("update")).Click();
+        return this;
+    }
+
+    public GroupHelper InitGroupModification()
+    {
+        _driver.FindElement(By.Name("edit")).Click();
         return this;
     }
 }
