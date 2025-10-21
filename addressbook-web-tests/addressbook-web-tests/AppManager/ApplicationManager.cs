@@ -3,6 +3,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace addressbook_web_tests;
 
@@ -17,7 +19,9 @@ public class ApplicationManager
     
     protected ContactHelper contactHelper;
 
-    public ApplicationManager()
+    private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
+
+    private ApplicationManager()
     {
         _driver = new ChromeDriver();
         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
@@ -28,15 +32,7 @@ public class ApplicationManager
         contactHelper = new ContactHelper(this);
     }
 
-    public IWebDriver Driver
-    {
-        get
-        {
-            return _driver;
-        }
-    }
-
-    public void Stop()
+    ~ApplicationManager()
     {
         try
         {
@@ -46,9 +42,25 @@ public class ApplicationManager
         {
             // Ignore errors if unable to close the browser
         }
-
     }
 
+    public static ApplicationManager GetInstance()
+    {
+        if (! app.IsValueCreated)
+        {
+            app.Value = new ApplicationManager();
+        }
+        return app.Value;
+    }
+    
+    public IWebDriver Driver
+    {
+        get
+        {
+            return _driver;
+        }
+    }
+    
     public LoginHelper Auth
     {
         get
@@ -80,5 +92,4 @@ public class ApplicationManager
             return contactHelper;
         }
     }
-    
 } 
