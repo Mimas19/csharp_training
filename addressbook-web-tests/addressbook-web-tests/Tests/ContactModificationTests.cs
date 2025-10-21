@@ -17,6 +17,7 @@ namespace addressbook_web_tests
                 "Modifmimas19@gmail.com", "Rostov-on-Don");
             
             app.Contact.Modify(1, newData);
+            
         }
     }
 }

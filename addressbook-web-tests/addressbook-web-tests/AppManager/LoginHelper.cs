@@ -16,10 +16,8 @@ public class LoginHelper : HelperBase
     
     public void Login(AccountData account)
     {
-        _driver.FindElement(By.Name("user")).Clear();
-        _driver.FindElement(By.Name("user")).SendKeys(account.Username);
-        _driver.FindElement(By.Name("pass")).Clear();
-        _driver.FindElement(By.Name("pass")).SendKeys(account.Password);
+        Type(By.Name("user"), account.Username);
+        Type(By.Name("pass"), account.Password);
         _driver.FindElement(By.XPath("//input[@value='Login']")).Click();
     }
 

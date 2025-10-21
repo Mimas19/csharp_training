@@ -20,6 +20,7 @@ public class ApplicationManager
     public ApplicationManager()
     {
         _driver = new ChromeDriver();
+        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         _baseUrl = "http://localhost/addressbook/";
         loginHelper = new LoginHelper(this);
         navigator = new NavigationHelper(this, _baseUrl);

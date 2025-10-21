@@ -47,24 +47,14 @@ public class ContactHelper : HelperBase
         
     public ContactHelper FillContactForm(ContactData contact)
     {
-        _driver.FindElement(By.Name("firstname")).Click();
-        _driver.FindElement(By.Name("firstname")).Clear();
-        _driver.FindElement(By.Name("firstname")).SendKeys(contact.Name);
-        _driver.FindElement(By.Name("lastname")).Click();
-        _driver.FindElement(By.Name("lastname")).Clear();
-        _driver.FindElement(By.Name("lastname")).SendKeys(contact.LastName);
-        _driver.FindElement(By.Name("address")).Click();
-        _driver.FindElement(By.Name("address")).Clear();
-        _driver.FindElement(By.Name("address")).SendKeys(contact.Address);
-        _driver.FindElement(By.Name("mobile")).Click();
-        _driver.FindElement(By.Name("mobile")).Clear();
-        _driver.FindElement(By.Name("mobile")).SendKeys(contact.Phone);
-        _driver.FindElement(By.Name("email")).Click();
-        _driver.FindElement(By.Name("email")).Clear();
-        _driver.FindElement(By.Name("email")).SendKeys(contact.Email);
+        Type(By.Name("firstname"),contact.Name);
+        Type(By.Name("lastname"),contact.LastName);
+        Type(By.Name("address"),contact.Address);
+        Type(By.Name("mobile"),contact.Phone);
+        Type(By.Name("email"),contact.Email);
         return this;
     }
-
+    
     public ContactHelper SubmitContactCreation()
     {
         _driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
