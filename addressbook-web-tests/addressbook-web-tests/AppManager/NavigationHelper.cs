@@ -16,16 +16,31 @@ public class NavigationHelper : HelperBase
     }
     public void OpenHomePage()
     {
+        if (_driver.Url == this._baseURL + "/addressbook/group.php"
+            && IsElementPresent(By.XPath("//input[@title='Search for any text']")))
+        {
+            return;
+        }
         _driver.Navigate().GoToUrl(_baseURL);
     }
     
     public void GoToGroupsPage()
     {
+        if (_driver.Url == _baseURL + "/addressbook/group.php" 
+            && IsElementPresent(By.Name("new")))
+        {
+            return;
+        }
         _driver.FindElement(By.LinkText("groups")).Click();
     }
     
     public void GoToAddressbookEdit()
     {
+        if (_driver.Url == _baseURL + "/addressbook/edit.php" 
+            && IsElementPresent(By.Name("photo")))
+        {
+            return;
+        }
         _driver.Navigate().GoToUrl("http://localhost/addressbook/edit.php");
     }
 
