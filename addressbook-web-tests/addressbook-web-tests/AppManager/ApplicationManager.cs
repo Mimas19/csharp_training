@@ -94,4 +94,16 @@ public class ApplicationManager
             return contactHelper;
         }
     }
+    public void Stop()
+    {
+        try
+        {
+            _driver.Quit();
+            app.Value = null; // важно для очистки ThreadLocal
+        }
+        catch (Exception)
+        {
+            // Ignore errors if unable to close the browser
+        }
+    }
 } 

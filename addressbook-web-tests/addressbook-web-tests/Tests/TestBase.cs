@@ -15,4 +15,9 @@ public class TestBase
         app = ApplicationManager.GetInstance();
         
     }
+    [OneTimeTearDown]
+    public void TearDown()
+    {
+        ApplicationManager.GetInstance().Stop();
+    }
 }
