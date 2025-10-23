@@ -8,10 +8,10 @@ using NUnit.Framework;
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class UntitledTestCase : TestBase
+    public class ContactRemovalTests : TestBase
     {
         [Test]
-        public void TheUntitledTestCaseTest()
+        public void DeletingContactTest()
         {
             app.Contact.Remove(1);
         }

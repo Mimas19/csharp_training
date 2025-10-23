@@ -76,6 +76,7 @@ public class ContactHelper : HelperBase
 
     public ContactHelper Remove(int i)
     {
+        manager.Navigator.OpenHomePage();
         this.FindAndSelectContact();
         this.DeleteContact();
         return this;
