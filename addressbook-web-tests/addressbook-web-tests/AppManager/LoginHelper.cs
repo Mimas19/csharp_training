@@ -37,7 +37,6 @@ public class LoginHelper : HelperBase
         {
             _driver.FindElement(By.LinkText("Logout")).Click();
         }
-        _driver.FindElement(By.LinkText("Logout")).Click();
     }
     public bool IsLoggedIn()
     {
