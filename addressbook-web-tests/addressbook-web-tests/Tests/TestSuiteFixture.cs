@@ -15,9 +15,23 @@ public class TestSuiteFixture
     [OneTimeSetUp]
     public void InitApplicationManager()
     {
-        ApplicationManager app = ApplicationManager.GetInstance();
+        app = ApplicationManager.GetInstance();
         app.Navigator.OpenHomePage();
         app.Auth.Login(new AccountData("admin","secret"));
     }
-
+    [OneTimeTearDown]
+    public void CleanupApplicationManager()
+    {
+        try
+        {
+            // Корректно закрываем браузер после завершения всех тестов
+            app.Driver.Quit();
+            app.Driver.Dispose(); // опционально, если реализован
+        }
+        catch (Exception ex)
+        {
+            // Логировать при необходимости
+            Console.WriteLine($"Ошибка при закрытии драйвера: {ex.Message}");
+        }
+    }
 }
