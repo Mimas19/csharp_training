@@ -10,7 +10,7 @@ public class TestBase
 
     
     [SetUp]
-    public void SetupTest()
+    public void SetupApplicationManager()
     {
         app = ApplicationManager.GetInstance();
     }
