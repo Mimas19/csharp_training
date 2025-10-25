@@ -19,6 +19,15 @@ public class ContactData
         
     }
     
+    // Упрощённый конструктор (для GetContactList — только имя)
+    public ContactData(string contactName)
+    {
+        this.contactName = contactName;
+        this.contactLastName = "";
+        this.contactPhone = "";
+        this.contactEmail = "";
+        this.contactAddress = "";
+    }
     public string Name
     {
         get
