@@ -20,14 +20,16 @@ namespace addressbook_web_tests
                 "mimas19@gmail.com", "Rostov-on-Don");
 
             app.Navigator.GoToAddressbookEdit();
-            app.Contact.CreateContact(contact);
             
             List<ContactData> oldContacts = app.Contact.GetContactList();
             
-            app.Navigator.GoToAddressbookPage();
+            app.Contact.CreateContact(contact);
             
-            List<ContactData> newContacts = app.Contact.GetContactList();
-            Assert.AreEqual(oldContacts.Count +1, newContacts.Count);
+            // app.Navigator.GoToAddressbookPage();  попробовать расскомментить если падает тест 
+
+            List<ContactData> newContacts = app.Contact.GetContactList(); 
+            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            
         }
         
         [Test]
@@ -37,15 +39,14 @@ namespace addressbook_web_tests
             ContactData contact = new ContactData("", "", "", "", "");
             
             app.Navigator.GoToAddressbookEdit();
-            app.Contact.CreateContact(contact);
-            app.Navigator.GoToAddressbookPage();
             
             List<ContactData> oldContacts = app.Contact.GetContactList();
             
-            app.Navigator.GoToAddressbookPage();
+            app.Contact.CreateContact(contact);
             
-            List<ContactData> newContacts = app.Contact.GetContactList();
-            Assert.AreEqual(oldContacts.Count +1, newContacts.Count);
+            List<ContactData> newContacts = app.Contact.GetContactList(); 
+            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            
         }
 
     }

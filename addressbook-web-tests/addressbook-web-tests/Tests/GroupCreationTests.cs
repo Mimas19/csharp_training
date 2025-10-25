@@ -38,7 +38,19 @@ namespace addressbook_web_tests
             Assert.AreEqual(oldGroups.Count +1, newGroups.Count);
 
         }
-        
-        
+        [Test]
+        public void BadNameCreatingGroup()
+        {
+            GroupData group = new GroupData("f'f");
+            group.Header = "";
+            group.Footer = "";
+            
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            
+            app.Groups.Create(group);
+
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            Assert.AreEqual(oldGroups.Count +1, newGroups.Count);
+        }
     }
 }

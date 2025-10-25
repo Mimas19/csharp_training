@@ -3,6 +3,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading;
 using OpenQA.Selenium;
@@ -92,11 +93,11 @@ public class ContactHelper : HelperBase
         _driver.FindElement(By.Name("update")).Click();
         return this;
     }
-    
+
     public List<ContactData> GetContactList()
     {
         List<ContactData> contacts = new List<ContactData>();
-        FindAndSelectContact();
+        manager.Navigator.OpenHomePage(); // если завалится тест может не на эту страницу переход. проверить
         ICollection<IWebElement> elements = _driver.FindElements(By.CssSelector("span.contact"));
         foreach (IWebElement element in elements)
         {
@@ -104,5 +105,4 @@ public class ContactHelper : HelperBase
         }
         return contacts;
     }
-
 }
