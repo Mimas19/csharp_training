@@ -38,8 +38,9 @@ namespace addressbook_web_tests
         {
             // тест на создание пустого контакта
             app.Navigator.GoToAddressbookEdit();
-            ContactData contact = new ContactData("", "", "", "", "");
+            
             List<ContactData> oldContacts = app.Contact.GetContactList();
+            ContactData contact = new ContactData("", "", "", "", "");
             
             app.Contact.CreateContact(contact);
             

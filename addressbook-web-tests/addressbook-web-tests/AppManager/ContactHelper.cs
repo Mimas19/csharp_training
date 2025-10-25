@@ -98,7 +98,7 @@ public class ContactHelper : HelperBase
     {
         List<ContactData> contacts = new List<ContactData>();
         manager.Navigator.OpenHomePage(); // если завалится тест может не на эту страницу переход. проверить
-        ICollection<IWebElement> elements = _driver.FindElements(By.CssSelector("span.contact"));
+        ICollection<IWebElement> elements = _driver.FindElements(By.CssSelector("td.center"));
         foreach (IWebElement element in elements)
         {
             contacts.Add(new ContactData(element.Text));
