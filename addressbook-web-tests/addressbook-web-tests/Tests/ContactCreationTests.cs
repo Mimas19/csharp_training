@@ -48,6 +48,20 @@ namespace addressbook_web_tests
             Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
             
         }
-
+        
+        [Test]
+        public void BadContactCreationTest()
+        {
+            app.Navigator.GoToAddressbookEdit();
+            
+            List<ContactData> oldContacts = app.Contact.GetContactList();
+            ContactData contact = new ContactData("f'f", "", "", "", "");
+            
+            app.Contact.CreateContact(contact);
+            
+            List<ContactData> newContacts = app.Contact.GetContactList(); 
+            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            
+        }
     }
 }
