@@ -26,8 +26,7 @@ namespace addressbook_web_tests
             app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
             
-            // app.Navigator.GoToAddressbookPage();  попробовать расскомментить если падает тест 
-            app.Navigator.GoToAddressbookPage();
+            
             List<ContactData> newContacts = app.Contact.GetContactList(); 
             Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
             
@@ -40,8 +39,10 @@ namespace addressbook_web_tests
             app.Navigator.GoToAddressbookEdit();
             
             List<ContactData> oldContacts = app.Contact.GetContactList();
+            
             ContactData contact = new ContactData("", "", "", "", "");
             
+            app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
             
             List<ContactData> newContacts = app.Contact.GetContactList(); 

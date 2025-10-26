@@ -98,10 +98,14 @@ public class ContactHelper : HelperBase
     {
         List<ContactData> contacts = new List<ContactData>();
         manager.Navigator.OpenHomePage(); // если завалится тест может не на эту страницу переход. проверить
-        ICollection<IWebElement> elements = _driver.FindElements(By.CssSelector("td.center"));
-        foreach (IWebElement element in elements)
+        ICollection<IWebElement> rows = _driver.FindElements(By.Name("entry"));
+        foreach (IWebElement row in rows)
         {
-            contacts.Add(new ContactData(element.Text));
+            var cells = row.FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+
+            contacts.Add(new ContactData(firstName, lastName, "", "", ""));
         }
         return contacts;
     }
