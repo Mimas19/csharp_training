@@ -19,7 +19,7 @@ namespace addressbook_web_tests
             newData.Header = "header_name2";
             newData.Footer = "footer_name2";
 
-            app.Groups.Modify(1, newData);
+            app.Groups.Modify(0, newData);
         }
     }
 }

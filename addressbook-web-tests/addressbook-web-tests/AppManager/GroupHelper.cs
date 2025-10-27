@@ -75,7 +75,7 @@ public class GroupHelper : HelperBase
     
     public GroupHelper SelectGroup(int index)
     {
-        _driver.FindElement(By.XPath("//span[" + index + "]/input")).Click();
+        _driver.FindElement(By.XPath("//span[" + (index+1) + "]/input")).Click();
         return this;
     }
 
