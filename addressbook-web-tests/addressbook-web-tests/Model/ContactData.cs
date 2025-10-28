@@ -120,4 +120,5 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
 
         return Name.CompareTo(other.Name);
     }
+    
 }
