@@ -93,5 +93,11 @@ public class ContactHelper : HelperBase
         _driver.FindElement(By.Name("update")).Click();
         return this;
     }
+    
+    public int GetContactCount()
+    {
+        manager.Navigator.OpenHomePage();
+        return _driver.FindElements(By.Name("selected[]")).Count;
+    }
 
 }

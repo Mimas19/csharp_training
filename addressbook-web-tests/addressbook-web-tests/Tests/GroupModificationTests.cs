@@ -15,10 +15,25 @@ namespace addressbook_web_tests
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("group_2");
-            newData.Header = "header_name2";
-            newData.Footer = "footer_name2";
+            // Проверяем, есть ли группы
+            if (app.Groups.GetGroupCount() == 0)
+            {
+                // Если групп нет, создаем тестовую
+                app.Groups.Create(new GroupData("group_1")
+                {
+                    Header = "header_name1",
+                    Footer = "footer_name1"
+                });
+            }
 
+            // Данные для модификации
+            GroupData newData = new GroupData("group_2")
+            {
+                Header = "header_name2",
+                Footer = "footer_name2"
+            };
+
+            // Модифицируем первую группу
             app.Groups.Modify(1, newData);
         }
     }
