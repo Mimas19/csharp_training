@@ -27,7 +27,7 @@ public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
 
     public override string ToString()
     {
-        return "name" + Name;
+        return "name=" + Name;
     }
 
     public int CompareTo(GroupData other)

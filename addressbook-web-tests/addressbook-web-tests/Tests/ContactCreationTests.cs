@@ -26,42 +26,58 @@ namespace addressbook_web_tests
             app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
             
-            
             List<ContactData> newContacts = app.Contact.GetContactList(); 
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
             
+            // Добавляем новый контакт в старый список
+            oldContacts.Add(contact);
+
+            // Сортируем для корректного сравнения
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            // Проверяем, что списки равны
+            Assert.AreEqual(oldContacts, newContacts);
         }
         
         [Test]
         public void EmptyContactCreationTest()
         {
-            // тест на создание пустого контакта
             app.Navigator.GoToAddressbookEdit();
-            
+
             List<ContactData> oldContacts = app.Contact.GetContactList();
-            
+
             ContactData contact = new ContactData("", "", "", "", "");
-            
+
             app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
-            
-            List<ContactData> newContacts = app.Contact.GetContactList(); 
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
-            
+
+            List<ContactData> newContacts = app.Contact.GetContactList();
+
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
         }
         
         [Test]
         public void BadContactCreationTest()
         {
             app.Navigator.GoToAddressbookEdit();
-            
+
             List<ContactData> oldContacts = app.Contact.GetContactList();
+
             ContactData contact = new ContactData("f'f", "", "", "", "");
-            
+
             app.Contact.CreateContact(contact);
-            
-            List<ContactData> newContacts = app.Contact.GetContactList(); 
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+
+            List<ContactData> newContacts = app.Contact.GetContactList();
+
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            Assert.AreEqual(oldContacts, newContacts);
             
         }
     }

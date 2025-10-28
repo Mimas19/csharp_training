@@ -1,7 +1,7 @@
 ﻿namespace addressbook_web_tests;
 
 
-public class ContactData
+public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
 {
     private string contactName;
     private string contactLastName;
@@ -86,5 +86,38 @@ public class ContactData
         {
             contactAddress = value;
         }
+    }
+    
+    public bool Equals(ContactData other)
+    {
+        if (ReferenceEquals(other, null))
+            return false;
+
+        if (ReferenceEquals(this, other))
+            return true;
+
+        // Сравниваем по имени и фамилии
+        return Name == other.Name && LastName == other.LastName;
+    }
+
+    public override int GetHashCode()
+    {
+        return (Name + LastName).GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return $"Name={Name}, LastName={LastName}";
+    }
+    public int CompareTo(ContactData other)
+    {
+        if (ReferenceEquals(other, null))
+            return 1;
+
+        int lastNameComparison = LastName.CompareTo(other.LastName);
+        if (lastNameComparison != 0)
+            return lastNameComparison;
+
+        return Name.CompareTo(other.Name);
     }
 }
