@@ -24,5 +24,6 @@ namespace addressbook_web_tests
             // Удаляем первый контакт
             app.Contact.Remove(1);
         }
+        
     }
 }
