@@ -13,6 +13,12 @@ namespace addressbook_web_tests
         [Test]
         public void ContactModificationTest()
         {
+            if (app.Contact.GetContactCount() == 0)
+            {
+                app.Contact.CreateContact(new ContactData("Sara", "Mislimova", "+79614072727", 
+                    "Sara@example.com", "Rostov-on-Don"));
+            }
+            
             ContactData newData = new ContactData("ModifySara", "Mislimova", "+79614072727", 
                 "Modifmimas19@gmail.com", "Rostov-on-Don");
 

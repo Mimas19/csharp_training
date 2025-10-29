@@ -13,6 +13,15 @@ namespace addressbook_web_tests
         [Test]
         public void DeletingContactTest()
         {
+            // Проверяем, есть ли контакты
+            if (app.Contact.GetContactCount() == 0)
+            {
+                // Если нет — создаём тестовый контакт
+                app.Contact.CreateContact(new ContactData("Sara", "Mislimova", "+79614072727",
+                    "Sara@example.com", "Rostov-on-Don"));
+            }
+
+            // Удаляем первый контакт
             // Получаем список контактов до удаления
             List<ContactData> oldContacts = app.Contact.GetContactList();
 

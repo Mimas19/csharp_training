@@ -97,6 +97,13 @@ public class GroupHelper : HelperBase
         _driver.FindElement(By.Name("edit")).Click();
         return this;
     }
+    
+    public int GetGroupCount()
+    {
+        manager.Navigator.GoToGroupsPage();
+        // Поиск всех чекбоксов групп на странице (если html так устроен)
+        return _driver.FindElements(By.CssSelector("span.group input[type='checkbox']")).Count;
+    }
 
     public List<GroupData> GetGroupList()
     {

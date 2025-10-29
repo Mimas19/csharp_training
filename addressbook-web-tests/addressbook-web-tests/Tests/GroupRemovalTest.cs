@@ -15,6 +15,14 @@ namespace addressbook_web_tests
         [Test]
         public void GroupRemovalTest()
         {
+            // Проверяем, есть ли группы
+            if (app.Groups.GetGroupCount() == 0)
+            {
+                // Если нет — создаём
+                app.Groups.Create(new GroupData("Test group", "header", "footer"));
+            }
+
+            
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             
             app.Groups.Remove(0);
