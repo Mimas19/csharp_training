@@ -47,9 +47,9 @@ namespace addressbook_web_tests
             List<ContactData> oldContacts = app.Contact.GetContactList();
 
             ContactData contact = new ContactData("", "", "", "", "");
-
-            app.Navigator.GoToAddressbookPage();
+            
             app.Contact.CreateContact(contact);
+            app.Navigator.GoToAddressbookPage();
 
             List<ContactData> newContacts = app.Contact.GetContactList();
 
