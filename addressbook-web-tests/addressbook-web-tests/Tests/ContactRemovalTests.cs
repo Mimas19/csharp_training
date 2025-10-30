@@ -21,7 +21,7 @@ namespace addressbook_web_tests
                     "Sara@example.com", "Rostov-on-Don"));
             }
 
-            // Удаляем первый контакт
+            
             // Получаем список контактов до удаления
             List<ContactData> oldContacts = app.Contact.GetContactList();
 
