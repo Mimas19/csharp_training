@@ -22,8 +22,9 @@ public class HelperBase
     {
         if (text != null)
         {
-            _driver.FindElement(locator);
-            _driver.FindElement(locator).SendKeys(text);  
+            var element = _driver.FindElement(locator);
+            element.Clear(); // тут я очищаю поле ввода
+            element.SendKeys(text); // теперь записываем новое значение
         }
     }
     public bool IsElementPresent(By by)
