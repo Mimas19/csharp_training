@@ -75,7 +75,7 @@ public class GroupHelper : HelperBase
     
     public GroupHelper SelectGroup(int index)
     {
-        _driver.FindElement(By.XPath("//span[" + index + "]/input")).Click();
+        _driver.FindElement(By.XPath("//span[" + (index+1) + "]/input")).Click();
         return this;
     }
 
@@ -103,5 +103,17 @@ public class GroupHelper : HelperBase
         manager.Navigator.GoToGroupsPage();
         // Поиск всех чекбоксов групп на странице (если html так устроен)
         return _driver.FindElements(By.CssSelector("span.group input[type='checkbox']")).Count;
+    }
+
+    public List<GroupData> GetGroupList()
+    {
+        List<GroupData> groups = new List<GroupData>();
+        manager.Navigator.GoToGroupsPage();
+        ICollection<IWebElement> elements = _driver.FindElements(By.CssSelector("span.group"));
+        foreach (IWebElement element in elements)
+        {
+            groups.Add(new GroupData(element.Text));
+        }
+        return groups;
     }
 }

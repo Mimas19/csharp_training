@@ -18,11 +18,28 @@ namespace addressbook_web_tests
                 app.Contact.CreateContact(new ContactData("Sara", "Mislimova", "+79614072727", 
                     "Sara@example.com", "Rostov-on-Don"));
             }
-
+            
             ContactData newData = new ContactData("ModifySara", "Mislimova", "+79614072727", 
                 "Modifmimas19@gmail.com", "Rostov-on-Don");
 
-            app.Contact.Modify(1, newData);
+            List<ContactData> oldContacts = app.Contact.GetContactList();
+
+            // Модифицируем контакт с индексом 0
+            app.Contact.Modify(0, newData);
+            app.Navigator.GoToAddressbookPage();
+
+            List<ContactData> newContacts = app.Contact.GetContactList();
+
+            // Обновляем данные в старом списке (замена по индексу)
+            oldContacts[0] = newData;
+
+            // Сортируем списки для корректного сравнения
+            oldContacts.Sort();
+            newContacts.Sort();
+
+            // Проверяем равенство списков
+            Assert.AreEqual(oldContacts, newContacts);
+            
         }
     }
 }

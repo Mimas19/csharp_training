@@ -100,4 +100,19 @@ public class ContactHelper : HelperBase
         return _driver.FindElements(By.Name("selected[]")).Count;
     }
 
+    public List<ContactData> GetContactList()
+    {
+        List<ContactData> contacts = new List<ContactData>();
+        manager.Navigator.OpenHomePage(); // если завалится тест может не на эту страницу переход. проверить
+        ICollection<IWebElement> rows = _driver.FindElements(By.Name("entry"));
+        foreach (IWebElement row in rows)
+        {
+            var cells = row.FindElements(By.TagName("td"));
+            string lastName = cells[1].Text;
+            string firstName = cells[2].Text;
+
+            contacts.Add(new ContactData(firstName, lastName, "", "", ""));
+        }
+        return contacts;
+    }
 }
