@@ -27,6 +27,8 @@ namespace addressbook_web_tests
 
             // Удаляем первый контакт по индексу 0
             app.Contact.Remove(0);
+            
+            Assert.AreEqual(oldContacts.Count - 1, app.Contact.GetContactCount());
 
             // Получаем новый список контактов после удаления
             List<ContactData> newContacts = app.Contact.GetContactList();

@@ -26,6 +26,8 @@ namespace addressbook_web_tests
             app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
             
+            Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactCount());
+            
             List<ContactData> newContacts = app.Contact.GetContactList(); 
             
             // Добавляем новый контакт в старый список
@@ -50,6 +52,8 @@ namespace addressbook_web_tests
             
             app.Contact.CreateContact(contact);
             app.Navigator.GoToAddressbookPage();
+            
+            Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactCount());
 
             List<ContactData> newContacts = app.Contact.GetContactList();
 
@@ -70,6 +74,8 @@ namespace addressbook_web_tests
             ContactData contact = new ContactData("f'f", "", "", "", "");
 
             app.Contact.CreateContact(contact);
+            
+            Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactCount());
 
             List<ContactData> newContacts = app.Contact.GetContactList();
 

@@ -58,6 +58,7 @@ public class ContactHelper : HelperBase
     public ContactHelper SubmitContactCreation()
     {
         _driver.FindElement(By.XPath("//div[@id='content']/form/input[20]")).Click();
+        contactCache = null;
         return this;
     }
 
@@ -71,6 +72,7 @@ public class ContactHelper : HelperBase
     public ContactHelper DeleteContact()
     {
         _driver.FindElement(By.Name("delete")).Click();
+        contactCache = null;
         return this;
     }
 
@@ -91,6 +93,7 @@ public class ContactHelper : HelperBase
     public ContactHelper SubmitContactModification()
     {
         _driver.FindElement(By.Name("update")).Click();
+        contactCache = null;
         return this;
     }
     
@@ -100,19 +103,26 @@ public class ContactHelper : HelperBase
         return _driver.FindElements(By.Name("selected[]")).Count;
     }
 
+    private List<ContactData> contactCache = null;
+
     public List<ContactData> GetContactList()
     {
-        List<ContactData> contacts = new List<ContactData>();
-        manager.Navigator.OpenHomePage(); // если завалится тест может не на эту страницу переход. проверить
-        ICollection<IWebElement> rows = _driver.FindElements(By.Name("entry"));
-        foreach (IWebElement row in rows)
+        if (contactCache == null)
         {
-            var cells = row.FindElements(By.TagName("td"));
-            string lastName = cells[1].Text;
-            string firstName = cells[2].Text;
+            manager.Navigator.OpenHomePage();
+            contactCache = new List<ContactData>();
+             
+            ICollection<IWebElement> rows = _driver.FindElements(By.Name("entry"));
+            foreach (IWebElement row in rows)
+            {
+                var cells = row.FindElements(By.TagName("td"));
+                string lastName = cells[1].Text;
+                string firstName = cells[2].Text;
 
-            contacts.Add(new ContactData(firstName, lastName, "", "", ""));
+                contactCache.Add(new ContactData(firstName, lastName, "", "", ""));
+            }
         }
-        return contacts;
+      
+        return new List<ContactData>(contactCache);
     }
 }
