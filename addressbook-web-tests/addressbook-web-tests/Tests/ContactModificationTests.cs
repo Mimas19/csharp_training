@@ -18,12 +18,10 @@ namespace addressbook_web_tests
                 app.Contact.CreateContact(new ContactData("Sara", "Mislimova", "+79614072727", 
                     "Sara@example.com", "Rostov-on-Don"));
             }
-
+            
             ContactData newData = new ContactData("ModifySara", "Mislimova", "+79614072727", 
                 "Modifmimas19@gmail.com", "Rostov-on-Don");
 
-            app.Contact.Modify(1, newData);
-            
             List<ContactData> oldContacts = app.Contact.GetContactList();
 
             // Модифицируем контакт с индексом 0
