@@ -24,7 +24,7 @@ public class ApplicationManager
     private ApplicationManager()
     {
         _driver = new ChromeDriver();
-        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
         _baseUrl = "http://localhost/addressbook/";
         loginHelper = new LoginHelper(this);
         navigator = new NavigationHelper(this, _baseUrl);
