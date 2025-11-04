@@ -26,6 +26,7 @@ namespace addressbook_web_tests
 
             // Модифицируем контакт с индексом 0
             app.Contact.Modify(0, newData);
+            app.Navigator.GoToAddressbookPage();
 
             List<ContactData> newContacts = app.Contact.GetContactList();
 
