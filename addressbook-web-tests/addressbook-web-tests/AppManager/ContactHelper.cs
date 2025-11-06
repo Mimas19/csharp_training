@@ -122,7 +122,6 @@ public class ContactHelper : HelperBase
                 contactCache.Add(new ContactData(firstName, lastName, "", "", ""));
             }
         }
-      
         return new List<ContactData>(contactCache);
     }
 }
