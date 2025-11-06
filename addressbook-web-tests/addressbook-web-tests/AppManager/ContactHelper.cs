@@ -50,7 +50,9 @@ public class ContactHelper : HelperBase
         Type(By.Name("firstname"),contact.Name);
         Type(By.Name("lastname"),contact.LastName);
         Type(By.Name("address"),contact.Address);
-        Type(By.Name("mobile"),contact.Phone);
+        Type(By.Name("home"), contact.HomePhone);
+        Type(By.Name("mobile"), contact.MobilePhone);
+        Type(By.Name("work"), contact.WorkPhone);
         Type(By.Name("email"),contact.Email);
         return this;
     }
@@ -118,13 +120,54 @@ public class ContactHelper : HelperBase
                 var cells = row.FindElements(By.TagName("td"));
                 string lastName = cells[1].Text;
                 string firstName = cells[2].Text;
+                string address = cells[3].Text;
+                // Предполагается, что телефоны и email могут быть в других столбцах, например:
+                string allPhones = cells[5].Text;  // или разбейте на отдельные телефоны, если нужно
+                string email = cells[4].Text;
+
                 
-                contactCache.Add(new ContactData(firstName, lastName, "", "", "") {
+                contactCache.Add(new ContactData(firstName, lastName, "", "", "", email, address)
+                {
                     Id = row.FindElement(By.TagName("input")).GetAttribute("value")
                 });
                 
             }
         }
         return new List<ContactData>(contactCache);
+    }
+
+    public ContactData GetContactInformationFromTable(int index)
+    {
+        manager.Navigator.OpenHomePage();
+        
+        IList<IWebElement> cells = _driver.FindElements(By.Name("entry"))[index]
+            .FindElements(By.TagName("td"));
+        string lastName = cells[1].Text;
+        string firstName = cells[2].Text;
+        string address = cells[3].Text;
+        string allPhones = cells[5].Text;
+
+        return new ContactData(firstName, lastName)
+        {
+            Address = address,
+            AllPhones = allPhones
+        };
+    }
+
+    public ContactData GetContactInformationFromEditForm(int index)
+    {
+        manager.Navigator.OpenHomePage();
+        InitContactModification();
+        
+        string firstName = _driver.FindElement(By.Name("firstname")).GetAttribute("value");
+        string lastName = _driver.FindElement(By.Name("lastname")).GetAttribute("value");
+        string address = _driver.FindElement(By.Name("address")).GetAttribute("value");
+        string homePhone = _driver.FindElement(By.Name("home")).GetAttribute("value");
+        string mobilePhone = _driver.FindElement(By.Name("mobile")).GetAttribute("value");
+        string workPhone = _driver.FindElement(By.Name("work")).GetAttribute("value");
+        string email = _driver.FindElement(By.Name("email")).GetAttribute("value");
+        
+        return new ContactData(firstName, lastName, homePhone, mobilePhone, workPhone, email, address);
+        
     }
 }

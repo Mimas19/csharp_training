@@ -15,12 +15,20 @@ namespace addressbook_web_tests
         {
             if (app.Contact.GetContactCount() == 0)
             {
-                app.Contact.CreateContact(new ContactData("Sara", "Mislimova", "+79614072727", 
-                    "Sara@example.com", "Rostov-on-Don"));
+                app.Contact.CreateContact(new ContactData(
+                    "Sara", "Mislimova", "", "+79614072727", "", "Sara@example.com", "Rostov-on-Don"
+                ));
             }
             
-            ContactData newData = new ContactData("ModifySara", "Mislimova", "+79614072727", 
-                "Modifmimas19@gmail.com", "Rostov-on-Don");
+            ContactData newData = new ContactData(
+                contactName: "ModifySara",
+                contactLastName: "Mislimova",
+                homePhone: "",               // передайте корректные значения или пустые строки
+                mobilePhone: "+79614072727",
+                workPhone: "",
+                email: "Modifmimas19@gmail.com",
+                address: "Rostov-on-Don"
+            );
 
             List<ContactData> oldContacts = app.Contact.GetContactList();
 
