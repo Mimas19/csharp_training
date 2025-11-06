@@ -118,8 +118,11 @@ public class ContactHelper : HelperBase
                 var cells = row.FindElements(By.TagName("td"));
                 string lastName = cells[1].Text;
                 string firstName = cells[2].Text;
-
-                contactCache.Add(new ContactData(firstName, lastName, "", "", ""));
+                
+                contactCache.Add(new ContactData(firstName, lastName, "", "", "") {
+                    Id = row.FindElement(By.TagName("input")).GetAttribute("value")
+                });
+                
             }
         }
         return new List<ContactData>(contactCache);

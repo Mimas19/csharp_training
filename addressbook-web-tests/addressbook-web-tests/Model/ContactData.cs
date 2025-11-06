@@ -3,92 +3,32 @@
 
 public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
 {
-    private string contactName;
-    private string contactLastName;
-    private string contactPhone;
-    private string contactEmail;
-    private string contactAddress;
-    
     public ContactData(string contactName, string contactLastName, string contactPhone, string contactEmail, string contactAddress)
     {
-        this.contactName = contactName;
-        this.contactLastName = contactLastName;
-        this.contactPhone = contactPhone;
-        this.contactEmail = contactEmail;
-        this.contactAddress = contactAddress;
-        
+        Name = contactName;
+        LastName = contactLastName;
+        Phone = contactPhone;
+        Email = contactEmail;
+        Address = contactAddress;
     }
     
     // Упрощённый конструктор (для GetContactList — только имя)
     public ContactData(string contactName)
     {
-        this.contactName = contactName;
-        this.contactLastName = "";
-        this.contactPhone = "";
-        this.contactEmail = "";
-        this.contactAddress = "";
+        Name = contactName;
+        LastName = "";
+        Phone = "";
+        Email = "";
+        Address = "";
     }
-    public string Name
-    {
-        get
-        {
-            return contactName;
-        }
-        set
-        {
-            contactName = value;
-        }
-    }
-
-    public string LastName
-    {
-        get
-        {
-            return contactLastName;
-        }
-        set
-        {
-            contactLastName = value;
-        }
-    }
-    
-    public string Phone
-    {
-        get
-        {
-            return contactPhone;
-        }
-        set
-        {
-            contactPhone = value;
-        }
-    }
-    
-    public string Email
-    {
-        get
-        {
-            return contactEmail;
-        }
-        set
-        {
-            contactEmail = value;
-        }
-    }
-    
-    public string Address
-    {
-        get
-        {
-            return contactAddress;
-        }
-        set
-        {
-            contactAddress = value;
-        }
-    }
-    
-    public bool Equals(ContactData other)
+   public string Name { get; set; }
+   public string LastName { get; set; }
+   public string Phone { get; set; }
+   public string Email { get; set; }
+   public string Address { get; set; }
+   public string Id { get; set; }
+   
+   public bool Equals(ContactData other)
     {
         if (ReferenceEquals(other, null))
             return false;

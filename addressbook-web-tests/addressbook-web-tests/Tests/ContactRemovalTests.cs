@@ -25,6 +25,9 @@ namespace addressbook_web_tests
             // Получаем список контактов до удаления
             List<ContactData> oldContacts = app.Contact.GetContactList();
 
+            // Сохраняем контакт, который будем удалять
+            ContactData toBeRemoved = oldContacts[0];
+            
             // Удаляем первый контакт по индексу 0
             app.Contact.Remove(0);
             
@@ -42,6 +45,11 @@ namespace addressbook_web_tests
 
             // Сравниваем списки
             Assert.AreEqual(oldContacts, newContacts);
+            
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
         }
         
     }

@@ -28,6 +28,8 @@ namespace addressbook_web_tests
             app.Contact.Modify(0, newData);
             app.Navigator.GoToAddressbookPage();
             
+            ContactData oldContact = oldContacts[0];
+            
             Assert.AreEqual(oldContacts.Count, app.Contact.GetContactCount());
 
             List<ContactData> newContacts = app.Contact.GetContactList();
@@ -41,7 +43,14 @@ namespace addressbook_web_tests
 
             // Проверяем равенство списков
             Assert.AreEqual(oldContacts, newContacts);
-            
+
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldContact.Id)
+                {
+                    Assert.AreEqual(newData.Name, contact.Name);
+                }
+            }
         }
     }
 }
