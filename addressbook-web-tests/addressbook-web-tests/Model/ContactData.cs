@@ -100,9 +100,9 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
         // Сравниваем по имени и фамилии
         return Name == other.Name
         && LastName == other.LastName
-        && HomePhone == other.HomePhone
-        && MobilePhone == other.MobilePhone
-        && WorkPhone == other.WorkPhone
+        //&& HomePhone == other.HomePhone
+        //&& MobilePhone == other.MobilePhone
+        //&& WorkPhone == other.WorkPhone
         && Email == other.Email
         && Address == other.Address;
 
