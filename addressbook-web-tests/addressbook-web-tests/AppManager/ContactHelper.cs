@@ -170,4 +170,12 @@ public class ContactHelper : HelperBase
         return new ContactData(firstName, lastName, homePhone, mobilePhone, workPhone, email, address);
         
     }
+
+    public int GetNumberOfSearchResults()
+    {
+       manager.Navigator.OpenHomePage();
+       string text = _driver.FindElement(By.TagName("label")).Text;
+       Match m = new Regex(@"\d+").Match(text);
+       return Int32.Parse(m.Value);
+    }
 }

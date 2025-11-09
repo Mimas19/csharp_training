@@ -1,4 +1,13 @@
-﻿namespace addressbook_web_tests;
+﻿using System.Text.RegularExpressions;
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using NUnit.Framework;
+using System.Collections.Generic;
+
+
+namespace addressbook_web_tests;
 
 
 public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
@@ -83,7 +92,7 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
        {
            return "";
        }
-       return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+       return Regex.Replace(phone, "[ -()]", "") + "\r\n"; // регулырное выражение лекция5.4
    }
    public string Email { get; set; }
    public string Address { get; set; }
