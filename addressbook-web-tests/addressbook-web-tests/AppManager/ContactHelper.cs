@@ -178,4 +178,71 @@ public class ContactHelper : HelperBase
        Match m = new Regex(@"\d+").Match(text);
        return Int32.Parse(m.Value);
     }
+
+    public ContactData GetContactInformationFromDetailsPage(int index)
+    {
+        manager.Navigator.OpenHomePage();
+    
+        // Предполагается, что есть метод получения id контакта по индексу
+        string contactId = GetContactIdByIndex(index);
+        if (contactId == null)
+            throw new ArgumentException("Invalid contact index"); 
+    
+        // Переходим на страницу деталей контакта
+        _driver.Url = $"http://localhost/addressbook/view.php?id={contactId}";
+    
+        IWebElement content = _driver.FindElement(By.Id("content"));
+        string contentText = content.Text;
+    
+        // Разделение по строкам для удобства парсинга
+        string[] lines = contentText
+            .Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+            .Where(line => !line.StartsWith("Warning") && !line.StartsWith("mysqli_query") && !line.StartsWith("<b>Warning"))
+            .ToArray();
+        
+        // находим строку с именем и фамилией – обычно первая, которая содержит пробел и не начинается с предупреждения
+        string fullNameLine = lines.FirstOrDefault(line => line.Contains(" ")) ?? "";
+        fullNameLine = fullNameLine.Replace("Modify", "").Trim();
+            
+        string[] names = fullNameLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string firstName = names.Length > 0 ? names[0] : "";
+        string lastName = names.Length > 1 ? names[1] : "";
+    
+        
+    
+        // lines[1] - адрес
+        int indexOfName = Array.IndexOf(lines, fullNameLine);
+        string address = (indexOfName != -1 && indexOfName + 1 < lines.Length) ? lines[indexOfName + 1] : "";
+
+    
+        // Телефоны начинаются примерно с строки "M: +79614072727"
+        // Можно из всех строк после адреса собрать телефоны в одну строку через переносы
+        var phonesLines = lines.Skip(indexOfName + 2)
+            .Where(line => line.StartsWith("M:") || line.StartsWith("H:") || line.StartsWith("W:") || line.StartsWith("Mob:") || line.StartsWith("+") || line.StartsWith("P:"))
+            .ToArray();
+        string allPhones = string.Join("\n", phonesLines);
+        
+        
+        // Email найти среди строк с символом @ (пример: Modifmimas19@gmail.com)
+        string email = lines.FirstOrDefault(line => line.Contains("@")) ?? "";
+    
+        return new ContactData(firstName, lastName)
+        {
+            Address = address,
+            AllPhones = allPhones,
+            Email = email
+        };
+    }
+    public string GetContactIdByIndex(int index)
+    {
+        manager.Navigator.OpenHomePage();
+        var checkboxes = _driver.FindElements(By.CssSelector("input[type='checkbox'][name='selected[]']"));
+        if (index >= 0 && index < checkboxes.Count)
+        {
+            return checkboxes[index].GetAttribute("id");
+        }
+        return null; // или выбросить исключение, если индекс неверный
+    }
+
+
 }

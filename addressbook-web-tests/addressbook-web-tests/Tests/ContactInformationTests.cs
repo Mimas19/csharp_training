@@ -22,5 +22,19 @@ namespace addressbook_web_tests
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
             Assert.AreEqual(fromTable.Email, fromForm.Email); // Добавила сравнение мейлов
         }
+
+        [Test]
+        public void TestContactDetailsMatchesEditForm()
+        {
+            ContactData fromDetails = app.Contact.GetContactInformationFromDetailsPage(0);
+            ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
+            
+            //verification
+            Assert.AreEqual(fromDetails, fromForm);
+            Assert.AreEqual(fromDetails.Address, fromForm.Address);
+            Assert.AreEqual(fromDetails.AllPhones, fromForm.AllPhones);
+            Assert.AreEqual(fromDetails.Email, fromForm.Email);
+            
+        }
     }
 }
