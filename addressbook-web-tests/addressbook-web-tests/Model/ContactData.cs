@@ -66,6 +66,8 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
    public string HomePhone { get; set; }
    public string MobilePhone { get; set; }
    public string WorkPhone { get; set; }
+   public string Email1 { get; set; }
+   public string Email2 { get; set; }
 
    public string AllPhones
    {
@@ -85,6 +87,37 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
            allPhones = value;
        }
    }
+   
+   private string allEmails;
+
+   public string AllEmails
+   {
+       get
+       {
+           if (allEmails != null)
+           {
+               return allEmails;
+           }
+           else
+           {
+               return (CleanUpEmail(Email) + CleanUpEmail(Email1) + CleanUpEmail(Email2)).Trim();
+           }
+       }
+       set
+       {
+           allEmails = value;
+       }
+   }
+
+   private string CleanUpEmail(string email)
+   {
+       if (string.IsNullOrEmpty(email))
+       {
+           return "";
+       }
+       return email.Trim() + "\r\n";  // Добавляем перенос аналогично телефонов для удобства сравнения
+   }
+
 
    private string CleanUp(string phone)
    {
@@ -113,6 +146,8 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
         //&& MobilePhone == other.MobilePhone
         //&& WorkPhone == other.WorkPhone
         && Email == other.Email
+        //&& Email1 == other.Email1
+        //&& Email2 == other.Email2
         && Address == other.Address;
 
     }

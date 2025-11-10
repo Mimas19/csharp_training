@@ -139,15 +139,14 @@ public class ContactHelper : HelperBase
     public ContactData GetContactInformationFromTable(int index)
     {
         manager.Navigator.OpenHomePage();
-    
+        
         IList<IWebElement> cells = _driver.FindElements(By.Name("entry"))[index]
             .FindElements(By.TagName("td"));
-
-        string lastName = Normalize(cells[1].Text);
-        string firstName = Normalize(cells[2].Text);
-        string address = Normalize(cells[3].Text);
-        string email = Normalize(cells[4].Text);
-        string allPhones = NormalizePhones(cells[5].Text);
+        string lastName = cells[1].Text;
+        string firstName = cells[2].Text;
+        string address = cells[3].Text;
+        string email = cells[4].Text; // добавила чтение Email
+        string allPhones = cells[5].Text;
 
         return new ContactData(firstName, lastName)
         {
@@ -156,7 +155,6 @@ public class ContactHelper : HelperBase
             AllPhones = allPhones
         };
     }
-
 
     public ContactData GetContactInformationFromEditForm(int index)
     {
@@ -170,9 +168,14 @@ public class ContactHelper : HelperBase
         string mobilePhone = _driver.FindElement(By.Name("mobile")).GetAttribute("value");
         string workPhone = _driver.FindElement(By.Name("work")).GetAttribute("value");
         string email = _driver.FindElement(By.Name("email")).GetAttribute("value");
-        
-        return new ContactData(firstName, lastName, homePhone, mobilePhone, workPhone, email, address);
-        
+        string email1 = _driver.FindElement(By.Name("email2")).GetAttribute("value");
+        string email2 = _driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+        return new ContactData(firstName, lastName, homePhone, mobilePhone, workPhone, email, address)
+        {
+            Email1 = email1,
+            Email2 = email2
+        };
     }
 
     public int GetNumberOfSearchResults()
@@ -186,50 +189,50 @@ public class ContactHelper : HelperBase
     public ContactData GetContactInformationFromDetailsPage(int index)
     {
         manager.Navigator.OpenHomePage();
-
+    
+        // Получаем id контакта по индексу
         string contactId = GetContactIdByIndex(index);
         if (contactId == null)
-            throw new ArgumentException("Invalid contact index");
-        
+            throw new ArgumentException("Invalid contact index"); 
+    
         // Переходим на страницу деталей контакта
         _driver.Url = $"http://localhost/addressbook/view.php?id={contactId}";
-
+    
         IWebElement content = _driver.FindElement(By.Id("content"));
         string contentText = content.Text;
-        
-        // Разделила по строкам для удобства парсинга 
+    
+        // Разделение по строкам для удобства парсинга
         string[] lines = contentText
             .Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-            // Пропускаем строки-сообщения об ошибках PHP - чтобы они не мешали распарсить реальные данные.
-            // Это было сложно. не обошлось без помощи
             .Where(line => !line.StartsWith("Warning") && !line.StartsWith("mysqli_query") && !line.StartsWith("<b>Warning"))
             .ToArray();
         
-        // Нахожу строку с именем и фамилией – обычно она первая, при этом должна содержать пробел и не начинаться с предупреждения
+        // находим строку с именем и фамилией – обычно первая, которая содержит пробел и не начинается с предупреждения
         string fullNameLine = lines.FirstOrDefault(line => line.Contains(" ")) ?? "";
-        // Убираю слово "Modify", если оно есть перед именем (специфика страницы)
         fullNameLine = fullNameLine.Replace("Modify", "").Trim();
-        
-        // Разделяю имя и фамилию по пробелу
+            
         string[] names = fullNameLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         string firstName = names.Length > 0 ? names[0] : "";
         string lastName = names.Length > 1 ? names[1] : "";
-
-        // Нахожу индекс строки с именем, чтобы от неё отсчитывать следующие строки
+    
+        
+    
+        // lines[1] - адрес
         int indexOfName = Array.IndexOf(lines, fullNameLine);
         string address = (indexOfName != -1 && indexOfName + 1 < lines.Length) ? lines[indexOfName + 1] : "";
-        address = Normalize(address);
 
+    
+        // Телефоны начинаются примерно со строки "M: +79614072727"
+        // Можно из всех строк после адреса собрать телефоны в одну строку через переносы
         var phonesLines = lines.Skip(indexOfName + 2)
             .Where(line => line.StartsWith("M:") || line.StartsWith("H:") || line.StartsWith("W:") || line.StartsWith("Mob:") || line.StartsWith("+") || line.StartsWith("P:"))
             .ToArray();
         string allPhones = string.Join("\n", phonesLines);
-        allPhones = NormalizePhones(allPhones);
         
-        // Ищу строку с email — строку, содержащую символ '@'
-        string email = Normalize(lines.FirstOrDefault(line => line.Contains("@")) ?? "");
-
-        // Возвращаю объект ContactData с собранными и нормализованными данными
+        
+        // Email найти среди строк с символом @ (пример: Modifmimas19@gmail.com)
+        string email = lines.FirstOrDefault(line => line.Contains("@")) ?? "";
+    
         return new ContactData(firstName, lastName)
         {
             Address = address,
@@ -246,19 +249,6 @@ public class ContactHelper : HelperBase
             return checkboxes[index].GetAttribute("id");
         }
         return null; // или выбросить исключение, если индекс неверный
-    }
-    
-    private string Normalize(string value)
-    {
-        return value == null ? "" : value.Trim();
-    }
-
-    private string NormalizePhones(string phones)
-    {
-        if (string.IsNullOrEmpty(phones))
-            return "";
-        // Можно удалить лишние пробелы, пустые строки, настроить формат
-        return phones.Trim();
     }
 
 
