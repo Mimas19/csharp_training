@@ -151,7 +151,7 @@ public class ContactHelper : HelperBase
         return new ContactData(firstName, lastName)
         {
             Address = address,
-            Email = allEmail,
+            AllEmails = allEmail,
             AllPhones = allPhones
         };
     }

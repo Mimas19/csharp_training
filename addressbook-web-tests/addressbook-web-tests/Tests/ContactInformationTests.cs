@@ -33,7 +33,7 @@ namespace addressbook_web_tests
             Assert.AreEqual(fromDetails, fromForm);
             Assert.AreEqual(fromDetails.Address, fromForm.Address);
             Assert.AreEqual(fromDetails.AllPhones, fromForm.AllPhones);
-            Assert.AreEqual(fromDetails.Email, fromForm.Email);
+            Assert.AreEqual(fromDetails.AllEmails, fromForm.AllEmails);
             
         }
     }
