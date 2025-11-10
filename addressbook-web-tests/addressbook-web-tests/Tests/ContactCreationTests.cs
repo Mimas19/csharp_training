@@ -26,6 +26,9 @@ namespace addressbook_web_tests
             app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
             
+            // Обеспечиваем, что находимся на главной странице контактов для точного подсчёта
+            app.Navigator.OpenHomePage();
+            
             Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactCount());
             
             List<ContactData> newContacts = app.Contact.GetContactList(); 
