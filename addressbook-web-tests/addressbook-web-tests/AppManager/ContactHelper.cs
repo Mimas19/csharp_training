@@ -230,14 +230,15 @@ public class ContactHelper : HelperBase
         string allPhones = string.Join("\n", phonesLines);
         
         
-        // Email найти среди строк с символом @ (пример: Modifmimas19@gmail.com)
-        string email = lines.FirstOrDefault(line => line.Contains("@")) ?? "";
-    
+        // Ищем все email строки — все строки, содержащие '@', объединяем в один блок через перенос строки
+        var emailLines = lines.Where(line => line.Contains("@")).ToArray();
+        string allEmails = string.Join("\n", emailLines);
+
         return new ContactData(firstName, lastName)
         {
             Address = address,
             AllPhones = allPhones,
-            Email = email
+            AllEmails = allEmails
         };
     }
     public string GetContactIdByIndex(int index)
