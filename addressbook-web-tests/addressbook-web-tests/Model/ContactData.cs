@@ -159,8 +159,19 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
 
     public override string ToString()
     {
-        return $"Name={Name}, LastName={LastName}";
+        return "Name=" + Name +
+               "\nLastName=" + LastName +
+               "\nHomePhone=" + HomePhone +
+               "\nMobilePhone=" + MobilePhone +
+               "\nWorkPhone=" + WorkPhone +
+               "\nEmail=" + Email +
+               "\nEmail1=" + Email1 +
+               "\nEmail2=" + Email2 +
+               "\nAddress=" + Address +
+               "\nAllPhones=" + AllPhones +
+               "\nAllEmails=" + AllEmails;
     }
+    
     public int CompareTo(ContactData other)
     {
         if (ReferenceEquals(other, null))

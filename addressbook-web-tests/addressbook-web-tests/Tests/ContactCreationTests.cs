@@ -12,60 +12,45 @@ namespace addressbook_web_tests
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
-        [Test]
-        public void UserCanLoginAndCreateContacts()
+        public static IEnumerable<ContactData> RandomContactDataProvider()
         {
-            // создаём объект ContactData и задаём ему значения
+            List<ContactData> contacts = new List<ContactData>();
+            for (int i = 0; i < 5; i++)
+            {
+                contacts.Add(new ContactData(
+                    GenerateRandomString(20),
+                    GenerateRandomString(20),
+                    GenerateRandomString(15),
+                    GenerateRandomString(15),
+                    GenerateRandomString(15),
+                    GenerateRandomString(30),
+                    GenerateRandomString(50)
+                ));
+            }
+            return contacts;
+        }
+        
+        
+        [Test, TestCaseSource("RandomContactDataProvider")]
+        public void UserCanLoginAndCreateContacts(ContactData contact)
+        {
             app.Navigator.GoToAddressbookEdit();
-            
             List<ContactData> oldContacts = app.Contact.GetContactList();
-            
-            ContactData contact = new ContactData("Sara", "Mislimova", "+79614072727", 
-                "mimas19@gmail.com", "Rostov-on-Don");
 
             app.Navigator.GoToAddressbookPage();
             app.Contact.CreateContact(contact);
-            
-            // Обеспечиваем, что находимся на главной странице контактов для точного подсчёта
-            app.Navigator.OpenHomePage();
-            
-            Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactCount());
-            
-            List<ContactData> newContacts = app.Contact.GetContactList(); 
-            
-            // Добавляем новый контакт в старый список
-            oldContacts.Add(contact);
 
-            // Сортируем для корректного сравнения
+            app.Navigator.OpenHomePage();
+            Assert.AreEqual(oldContacts.Count + 1, app.Contact.GetContactCount());
+
+            List<ContactData> newContacts = app.Contact.GetContactList();
+            oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
 
-            // Проверяем, что списки равны
             Assert.AreEqual(oldContacts, newContacts);
         }
         
-        [Test]
-        public void EmptyContactCreationTest()
-        {
-            app.Navigator.GoToAddressbookEdit();
-
-            List<ContactData> oldContacts = app.Contact.GetContactList();
-
-            ContactData contact = new ContactData("", "", "", "", "");
-            
-            app.Contact.CreateContact(contact);
-            app.Navigator.GoToAddressbookPage();
-            
-            Assert.AreEqual(oldContacts.Count +1, app.Contact.GetContactCount());
-
-            List<ContactData> newContacts = app.Contact.GetContactList();
-
-            oldContacts.Add(contact);
-            oldContacts.Sort();
-            newContacts.Sort();
-
-            Assert.AreEqual(oldContacts, newContacts);
-        }
         
         [Test]
         public void BadContactCreationTest()
