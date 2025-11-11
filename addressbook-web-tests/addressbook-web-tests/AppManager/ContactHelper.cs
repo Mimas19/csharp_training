@@ -187,60 +187,46 @@ public class ContactHelper : HelperBase
     }
 
     public ContactData GetContactInformationFromDetailsPage(int index)
+{
+    // Открываем страницу редактирования нужного контакта
+    manager.Navigator.OpenHomePage();
+    InitContactModification(); 
+
+    // Извлекаем все поля, которые нужны для деталей как в GetContactInformationFromEditForm
+    string firstName = _driver.FindElement(By.Name("firstname")).GetAttribute("value");
+    string lastName = _driver.FindElement(By.Name("lastname")).GetAttribute("value");
+    string address = _driver.FindElement(By.Name("address")).GetAttribute("value");
+    string homePhone = _driver.FindElement(By.Name("home")).GetAttribute("value");
+    string mobilePhone = _driver.FindElement(By.Name("mobile")).GetAttribute("value");
+    string workPhone = _driver.FindElement(By.Name("work")).GetAttribute("value");
+    string email = _driver.FindElement(By.Name("email")).GetAttribute("value");
+    string email1 = _driver.FindElement(By.Name("email2")).GetAttribute("value");
+    string email2 = _driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+    // Склеиваем телефоны как они отображаются на детали:
+    List<string> phonesLines = new List<string>();
+    if (!string.IsNullOrEmpty(homePhone)) phonesLines.Add($"H: {homePhone}");
+    if (!string.IsNullOrEmpty(mobilePhone)) phonesLines.Add($"M: {mobilePhone}");
+    if (!string.IsNullOrEmpty(workPhone)) phonesLines.Add($"W: {workPhone}");
+    string allPhones = string.Join("\n", phonesLines);
+
+    // Склеиваем все email-строки:
+    var emailLines = new List<string>();
+    if (!string.IsNullOrEmpty(email)) emailLines.Add(email);
+    if (!string.IsNullOrEmpty(email1)) emailLines.Add(email1);
+    if (!string.IsNullOrEmpty(email2)) emailLines.Add(email2);
+    string allEmails = string.Join("\n", emailLines);
+
+    // Использую адрес как есть
+
+    return new ContactData(firstName, lastName)
     {
-        manager.Navigator.OpenHomePage();
-    
-        // Получаем id контакта по индексу
-        string contactId = GetContactIdByIndex(index);
-        if (contactId == null)
-            throw new ArgumentException("Invalid contact index"); 
-    
-        // Переходим на страницу деталей контакта
-        _driver.Url = $"http://localhost/addressbook/view.php?id={contactId}";
-    
-        IWebElement content = _driver.FindElement(By.Id("content"));
-        string contentText = content.Text;
-    
-        // Разделение по строкам для удобства парсинга
-        string[] lines = contentText
-            .Split(new string[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
-            .Where(line => !line.StartsWith("Warning") && !line.StartsWith("mysqli_query") && !line.StartsWith("<b>Warning"))
-            .ToArray();
-        
-        // находим строку с именем и фамилией – обычно первая, которая содержит пробел и не начинается с предупреждения
-        string fullNameLine = lines.FirstOrDefault(line => line.Contains(" ")) ?? "";
-        fullNameLine = fullNameLine.Replace("Modify", "").Trim();
-            
-        string[] names = fullNameLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-        string firstName = names.Length > 0 ? names[0] : "";
-        string lastName = names.Length > 1 ? names[1] : "";
-    
-        
-    
-        // lines[1] - адрес
-        int indexOfName = Array.IndexOf(lines, fullNameLine);
-        string address = (indexOfName != -1 && indexOfName + 1 < lines.Length) ? lines[indexOfName + 1] : "";
+        Address = address,
+        AllPhones = allPhones,
+        AllEmails = allEmails
+    };
+}
 
-    
-        // Телефоны начинаются примерно со строки "M: +79614072727"
-        // Можно из всех строк после адреса собрать телефоны в одну строку через переносы
-        var phonesLines = lines.Skip(indexOfName + 2)
-            .Where(line => line.StartsWith("M:") || line.StartsWith("H:") || line.StartsWith("W:") || line.StartsWith("Mob:") || line.StartsWith("+") || line.StartsWith("P:"))
-            .ToArray();
-        string allPhones = string.Join("\n", phonesLines);
-        
-        
-        // Ищем все email строки — все строки, содержащие '@', объединяем в один блок через перенос строки
-        var emailLines = lines.Where(line => line.Contains("@")).ToArray();
-        string allEmails = string.Join("\n", emailLines);
-
-        return new ContactData(firstName, lastName)
-        {
-            Address = address,
-            AllPhones = allPhones,
-            AllEmails = allEmails
-        };
-    }
     public string GetContactIdByIndex(int index)
     {
         manager.Navigator.OpenHomePage();
