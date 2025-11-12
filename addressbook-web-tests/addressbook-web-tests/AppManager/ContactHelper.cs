@@ -186,57 +186,19 @@ public class ContactHelper : HelperBase
        return Int32.Parse(m.Value);
     }
 
-    public ContactData GetContactInformationFromDetailsPage(int index)
-{
-    // Открываем страницу редактирования нужного контакта
-    manager.Navigator.OpenHomePage();
-    InitContactModification(); 
-
-    // Извлекаем все поля, которые нужны для деталей как в GetContactInformationFromEditForm
-    string firstName = _driver.FindElement(By.Name("firstname")).GetAttribute("value");
-    string lastName = _driver.FindElement(By.Name("lastname")).GetAttribute("value");
-    string address = _driver.FindElement(By.Name("address")).GetAttribute("value");
-    string homePhone = _driver.FindElement(By.Name("home")).GetAttribute("value");
-    string mobilePhone = _driver.FindElement(By.Name("mobile")).GetAttribute("value");
-    string workPhone = _driver.FindElement(By.Name("work")).GetAttribute("value");
-    string email = _driver.FindElement(By.Name("email")).GetAttribute("value");
-    string email1 = _driver.FindElement(By.Name("email2")).GetAttribute("value");
-    string email2 = _driver.FindElement(By.Name("email3")).GetAttribute("value");
-
-    // Склеиваем телефоны как они отображаются на детали:
-    List<string> phonesLines = new List<string>();
-    if (!string.IsNullOrEmpty(homePhone)) phonesLines.Add($"H: {homePhone}");
-    if (!string.IsNullOrEmpty(mobilePhone)) phonesLines.Add($"M: {mobilePhone}");
-    if (!string.IsNullOrEmpty(workPhone)) phonesLines.Add($"W: {workPhone}");
-    string allPhones = string.Join("\n", phonesLines);
-
-    // Склеиваем все email-строки:
-    var emailLines = new List<string>();
-    if (!string.IsNullOrEmpty(email)) emailLines.Add(email);
-    if (!string.IsNullOrEmpty(email1)) emailLines.Add(email1);
-    if (!string.IsNullOrEmpty(email2)) emailLines.Add(email2);
-    string allEmails = string.Join("\n", emailLines);
-
-    // Использую адрес как есть
-
-    return new ContactData(firstName, lastName)
-    {
-        Address = address,
-        AllPhones = allPhones,
-        AllEmails = allEmails
-    };
-}
-
-    public string GetContactIdByIndex(int index)
+    public string GetContactDetailsStringFromDetailsPage(int index)
     {
         manager.Navigator.OpenHomePage();
-        var checkboxes = _driver.FindElements(By.CssSelector("input[type='checkbox'][name='selected[]']"));
-        if (index >= 0 && index < checkboxes.Count)
-        {
-            return checkboxes[index].GetAttribute("id");
-        }
-        return null; // или выбросить исключение, если индекс неверный
-    }
+        // Кликаем по DETAILS той строки, которая нужна
+        _driver.FindElements(By.XPath("//img[@title='Details']"))[index].Click();
+        IWebElement content = _driver.FindElement(By.Id("content"));
+        string contentText = content.Text;
 
+        // Если нужно убрать технич. строки:
+        string[] lines = contentText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        string clean = string.Join("\n", lines.Where(line => !line.Contains("Warning") && !line.Contains("mysqli_query")));
+        return clean;
+    }
+    
 
 }
