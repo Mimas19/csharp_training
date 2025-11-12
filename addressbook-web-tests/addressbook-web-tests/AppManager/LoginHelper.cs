@@ -46,7 +46,27 @@ public class LoginHelper : HelperBase
     public bool IsLoggedIn(AccountData account)
     {
         return IsLoggedIn()
-               && _driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text ==
-               "(" + account.Username + ")";
+               && GetLoggetUserName() == account.Username;
+    }
+
+    public string GetLoggetUserName()
+    {
+        // Используем WebDriverWait, чтобы дождаться появления элемента
+        WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+        IWebElement logoutElement = wait.Until(driver => driver.FindElement(By.Name("logout")));
+
+        // Ищем тег <b> внутри элемента logout
+        IWebElement userElement = logoutElement.FindElement(By.TagName("b"));
+
+        string text = userElement.Text;
+        // Используем Substring с проверками на длину, чтобы не получить исключение
+        if (text.Length >= 2)
+        {
+            return text.Substring(1, text.Length - 2);
+        }
+        else
+        {
+            return text;
+        }
     }
 }
