@@ -2,8 +2,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook-web-tests", "addressbook-web-tests\addressbook-web-tests.csproj", "{6112543A-16F2-4684-A380-07DC6E70A195}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "addressbook-test-data-generators", "addressbook-test-data-generators\addressbook-test-data-generators.csproj", "{E7162907-057C-4144-98DC-6E82FE956B32}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,9 +12,5 @@ Global
 		{6112543A-16F2-4684-A380-07DC6E70A195}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6112543A-16F2-4684-A380-07DC6E70A195}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6112543A-16F2-4684-A380-07DC6E70A195}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7162907-057C-4144-98DC-6E82FE956B32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7162907-057C-4144-98DC-6E82FE956B32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7162907-057C-4144-98DC-6E82FE956B32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7162907-057C-4144-98DC-6E82FE956B32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
