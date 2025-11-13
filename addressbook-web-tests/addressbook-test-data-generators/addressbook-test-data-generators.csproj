@@ -8,4 +8,17 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\addressbook-web-tests\addressbook-web-tests.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="addressbook-test-data-generators">
+        <HintPath>bin\Debug\net6.0\addressbook-test-data-generators.dll</HintPath>
+      </Reference>
+      <Reference Include="addressbook-web-tests">
+        <HintPath>..\addressbook-web-tests\bin\Debug\net6.0\addressbook-web-tests.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
