@@ -38,32 +38,43 @@ namespace addressbook_web_tests
 
         private string ComposeContactDetailsString(ContactData contact)
         {
-            StringBuilder result = new StringBuilder();
+            // Список всех блоков для итогового результата
+            var blocks = new List<string>();
 
-            // Имя и фамилия
-            result.Append($"{contact.Name} {contact.LastName}\n");
+            // Блок: Имя и фамилия (одним блоком)
+            string nameBlock = $"{contact.Name} {contact.LastName}".Trim();
+            if (!string.IsNullOrEmpty(nameBlock))
+                blocks.Add(nameBlock);
 
-            // Адрес (если есть)
+            // Блок: Адрес
             if (!string.IsNullOrWhiteSpace(contact.Address))
-                result.Append(contact.Address + "\n");
+                blocks.Add(contact.Address.Trim());
 
-            // Телефоны
+            // Блок: Телефоны, объединенные в одну строку с переводами строк внутри блока
+            var phoneLines = new List<string>();
             if (!string.IsNullOrWhiteSpace(contact.HomePhone))
-                result.Append($"H: {contact.HomePhone}\n");
+                phoneLines.Add($"H: {contact.HomePhone.Trim()}");
             if (!string.IsNullOrWhiteSpace(contact.MobilePhone))
-                result.Append($"M: {contact.MobilePhone}\n");
+                phoneLines.Add($"M: {contact.MobilePhone.Trim()}");
             if (!string.IsNullOrWhiteSpace(contact.WorkPhone))
-                result.Append($"W: {contact.WorkPhone}\n");
+                phoneLines.Add($"W: {contact.WorkPhone.Trim()}");
+            if (phoneLines.Count > 0)
+                blocks.Add(string.Join("\n", phoneLines));
 
-            // Email'ы
+            // Блок: Email, объединенные в одну строку с переводами строк внутри блока
+            var emailLines = new List<string>();
             if (!string.IsNullOrWhiteSpace(contact.Email))
-                result.Append(contact.Email + "\n");
+                emailLines.Add(contact.Email.Trim());
             if (!string.IsNullOrWhiteSpace(contact.Email1))
-                result.Append(contact.Email1 + "\n");
+                emailLines.Add(contact.Email1.Trim());
             if (!string.IsNullOrWhiteSpace(contact.Email2))
-                result.Append(contact.Email2 + "\n");
+                emailLines.Add(contact.Email2.Trim());
+            if (emailLines.Count > 0)
+                blocks.Add(string.Join("\n", emailLines));
 
-            return result.ToString().Trim();
+            // Итог: объединяем все непустые блоки двойными переводами строк
+            return string.Join("\n\n", blocks);
         }
+
     }
 }
