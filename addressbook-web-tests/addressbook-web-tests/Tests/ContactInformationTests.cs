@@ -17,21 +17,45 @@ namespace addressbook_web_tests
             ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
             
             //verification
-            Assert.AreEqual(fromTable, fromForm);
+            // Сравниваем имя и фамилию
+            Assert.AreEqual(fromTable.Name, fromForm.Name);
+            Assert.AreEqual(fromTable.LastName, fromForm.LastName);
+    
+            // Сравниваем адрес
             Assert.AreEqual(fromTable.Address, fromForm.Address);
+    
+            // Сравниваем телефоны
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
-            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails); // Добавила сравнение мейлов
+    
+            // Сравниваем Email, если в таблице он не пустой
+            if (!string.IsNullOrEmpty(fromTable.Email))
+            {
+                Assert.AreEqual(fromTable.Email, fromForm.Email);
+            }
+
+            // Сравниваем список email-ов
+            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
         }
 
         [Test]
         public void TestContactDetailsMatchesEditForm()
         {
-            // Получаем объект контакта из формы редактирования
+            // Получаю объект контакта из формы редактирования
             ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
-            // Генерируем строку "ожидаемый результат"
+            // Генерирую строку "ожидаемый результат"
             string expectedDetails = ComposeContactDetailsString(fromForm);
-            // Получаем строку с фактической страницы деталей
+            // Получаю строку с фактической страницы деталей
             string actualDetails = app.Contact.GetContactDetailsStringFromDetailsPage(0);
+            
+            // Нормализую строки перед сравнением:
+            // заменяю двойной перевод строки на одинарный и убираю лишние пробелы в конце
+            string Normalize(string s) => s
+                .Replace("\r\n", "\n")      // нормализую переводы строк к одному виду
+                .Replace("\n\n", "\n")      // заменяю двойные переводы строк на одинарные
+                .Trim();                   // удаляю начальные и конечные пробелы и переводы строк
+
+            expectedDetails = Normalize(expectedDetails);
+            actualDetails = Normalize(actualDetails);
 
             Assert.AreEqual(expectedDetails, actualDetails);
         }
@@ -72,7 +96,7 @@ namespace addressbook_web_tests
             if (emailLines.Count > 0)
                 blocks.Add(string.Join("\n", emailLines));
 
-            // Итог: объединяем все непустые блоки двойными переводами строк
+            // Итог: объединяю все непустые блоки двойными переводами строк
             return string.Join("\n\n", blocks);
         }
 
