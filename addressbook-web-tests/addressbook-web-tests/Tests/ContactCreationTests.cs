@@ -5,6 +5,8 @@ using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 
 namespace addressbook_web_tests 
@@ -49,7 +51,14 @@ namespace addressbook_web_tests
             return contacts;
         }
         
-        [Test, TestCaseSource("ContactDataFromFile")]
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>)
+                new XmlSerializer(typeof(List<ContactData>))
+                    .Deserialize(new StreamReader(@"contacts.xml"));
+        }
+        
+        [Test, TestCaseSource("ContactDataFromXmlFile")]
         public void UserCanLoginAndCreateContacts(ContactData contact)
         {
             app.Navigator.GoToAddressbookEdit();

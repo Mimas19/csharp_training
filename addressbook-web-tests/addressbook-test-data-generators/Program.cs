@@ -9,51 +9,120 @@ using Microsoft.VisualBasic;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace addressbook_test_data_generators;
-
-public class Program
+namespace addressbook_test_data_generators
 {
-    static void Main(string[] args)
+    public class Program
     {
-        int count = Convert.ToInt32(args[0]);
-        StreamWriter writer = new StreamWriter(args[1]);
-        string format = args[3]; 
-        List<GroupData> groups = new List<GroupData>();
-        for (int i = 0; i < count; i++)
+        static void Main(string[] args)
         {
-            groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+            // Проверка наличия нужных аргументов
+            if (args.Length < 4)
             {
-                Header = TestBase.GenerateRandomString(100),
-                Footer = TestBase.GenerateRandomString(100)
-            });
+                Console.WriteLine("Ошибка: необходимо 4 аргумента: count filename format datatype");
+                return;
+            }
+
+            int count = Convert.ToInt32(args[0]);
+            string filename = args[1];
+            string format = args[2].ToLower();    // "csv" или "xml"
+            string datatype = args[3].ToLower();  // "group" или "contact"
+
+            if (datatype == "group")
+            {
+                List<GroupData> groups = new List<GroupData>();
+                for (int i = 0; i < count; i++)
+                {
+                    groups.Add(new GroupData(TestBase.GenerateRandomString(10))
+                    {
+                        Header = TestBase.GenerateRandomString(100),
+                        Footer = TestBase.GenerateRandomString(100)
+                    });
+                }
+
+                if (format == "csv")
+                {
+                    using (StreamWriter writer = new StreamWriter(filename))
+                    {
+                        WriteGroupsToCsvFile(groups, writer);
+                    }
+                }
+                else if (format == "xml")
+                {
+                    WriteGroupsToXmlFile(groups, filename);
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка: неизвестный формат " + format);
+                }
+            }
+            else if (datatype == "contact")
+            {
+                List<ContactData> contacts = new List<ContactData>();
+                for (int i = 0; i < count; i++)
+                {
+                    contacts.Add(new ContactData(
+                        TestBase.GenerateRandomString(10),
+                        TestBase.GenerateRandomString(10),
+                        TestBase.GenerateRandomString(10),
+                        TestBase.GenerateRandomString(10),
+                        TestBase.GenerateRandomString(10),
+                        TestBase.GenerateRandomString(30),
+                        TestBase.GenerateRandomString(50)
+                    ));
+                }
+
+                if (format == "csv")
+                {
+                    using (StreamWriter writer = new StreamWriter(filename))
+                    {
+                        WriteContactsToCsvFile(contacts, writer);
+                    }
+                }
+                else if (format == "xml")
+                {
+                    WriteContactsToXmlFile(contacts, filename);
+                }
+                else
+                {
+                    Console.WriteLine("Ошибка: неизвестный формат " + format);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ошибка: неизвестный тип данных " + datatype);
+            }
         }
 
-        if (format == "csv")
+        static void WriteGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
         {
-            writeGroupsToCsvFile(groups, writer);
+            foreach (GroupData group in groups)
+            {
+                writer.WriteLine($"{group.Name},{group.Header},{group.Footer}");
+            }
         }
-        else if (format == "xml")
-        {
-            writeGroupsToXmlFile(groups, writer);
-        }
-        else
-        {
-            System.Console.Out.Write("Unknown format" + format);
-        }
-        writer.Close();
-    }
 
-    static void writeGroupsToCsvFile(List<GroupData> groups, StreamWriter writer)
-    {
-        foreach (GroupData group in groups)
+        static void WriteGroupsToXmlFile(List<GroupData> groups, string filename)
         {
-            writer.WriteLine(String.Format("${0},${1},${2}",
-                group.Name, group.Header, group.Footer));
+            using (FileStream stream = new FileStream(filename, FileMode.Create))
+            {
+                new XmlSerializer(typeof(List<GroupData>)).Serialize(stream, groups);
+            }
         }
-    }
 
-    static void writeGroupsToXmlFile(List<GroupData> groups, StreamWriter writer)
-    {
-        new XmlSerializer(typeof(List<GroupData>)).Serialize(writer, groups);
+        static void WriteContactsToCsvFile(List<ContactData> contacts, StreamWriter writer)
+        {
+            foreach (ContactData contact in contacts)
+            {
+                writer.WriteLine($"{contact.Name},{contact.LastName},{contact.HomePhone},{contact.MobilePhone},{contact.WorkPhone},{contact.Email},{contact.Address}");
+            }
+        }
+
+        static void WriteContactsToXmlFile(List<ContactData> contacts, string filename)
+        {
+            using (FileStream stream = new FileStream(filename, FileMode.Create))
+            {
+                new XmlSerializer(typeof(List<ContactData>)).Serialize(stream, contacts);
+            }
+        }
     }
 }

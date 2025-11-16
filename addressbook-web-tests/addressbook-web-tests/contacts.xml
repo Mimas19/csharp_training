@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactData>
+    <Name>Иван</Name>
+    <LastName>Иванов</LastName>
+    <HomePhone>123456</HomePhone>
+    <MobilePhone>789012</MobilePhone>
+    <WorkPhone>345678</WorkPhone>
+    <Email>ivanov@example.com</Email>
+    <Address>Москва, ул. Ленина, д.1</Address>
+  </ContactData>
+  <ContactData>
+    <Name>Пётр</Name>
+    <LastName>Петров</LastName>
+    <HomePhone>234567</HomePhone>
+    <MobilePhone>890123</MobilePhone>
+    <WorkPhone>456789</WorkPhone>
+    <Email>petrov@example.com</Email>
+    <Address>Санкт-Петербург, Невский проспект, 10</Address>
+  </ContactData>
+  <!-- Добавляйте другие контакты по образцу -->
+</ArrayOfContactData>
