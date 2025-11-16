@@ -46,6 +46,11 @@ public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
         Footer = footer;
     }
 
+    public GroupData()
+    {
+        
+    }
+
     public string Name { get; set; }
 
     public string Header { get; set; }
