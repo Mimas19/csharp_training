@@ -198,11 +198,11 @@ public class ContactHelper : HelperBase
         string[] lines = contentText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
         // Убираю только строки с предупреждениями, не убирая пустые строки
-        var filtered = lines.Where(line => !line.Contains("Warning") && !line.Contains("mysqli_query"));
+        var filtered = lines.Where(line => !line.Contains("Warning") 
+                                           && !line.Contains("mysqli_query") && !string.IsNullOrWhiteSpace(line));
 
         // Сохраняю перевод строк, включая пустые (двойные) между блоками
-        string clean = string.Join("\n", filtered);
-
+        string clean = string.Join("\n\n", filtered);
         return clean;
     }
     

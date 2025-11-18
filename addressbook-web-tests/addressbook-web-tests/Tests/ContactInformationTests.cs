@@ -51,8 +51,8 @@ namespace addressbook_web_tests
             // заменяю двойной перевод строки на одинарный и убираю лишние пробелы в конце
             string Normalize(string s) => s
                 .Replace("\r\n", "\n")      // нормализую переводы строк к одному виду
-                .Replace("\n\n", "\n")      // заменяю двойные переводы строк на одинарные
                 .Trim();                   // удаляю начальные и конечные пробелы и переводы строк
+
 
             expectedDetails = Normalize(expectedDetails);
             actualDetails = Normalize(actualDetails);
