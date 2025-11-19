@@ -12,4 +12,8 @@
       <ProjectReference Include="..\addressbook-web-tests\addressbook-web-tests.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="linq2db.MySql" Version="5.4.1.9" />
+    </ItemGroup>
+
 </Project>

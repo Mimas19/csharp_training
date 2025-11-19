@@ -6,6 +6,7 @@ using System.IO;
 using NUnit.Framework.Constraints;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 
 namespace addressbook_web_tests
 {
@@ -89,6 +90,22 @@ namespace addressbook_web_tests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
+        }
+
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<GroupData> fromUi = app.Groups.GetGroupList();
+            DateTime end = DateTime.Now;
+            System.Console.WriteLine("Took: " + end.Subtract(start));
+            
+            start = DateTime.Now;
+            AddressBookDB db = new AddressBookDB();
+            List<GroupData> fromDb = (from g in db.Groups select g).ToList();
+            db.Close();
+            end = DateTime.Now;
+            Console.WriteLine("Took: " + end.Subtract(start));
         }
     }
 }
