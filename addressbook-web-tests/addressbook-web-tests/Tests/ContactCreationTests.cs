@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
-
+using System.Linq;
 
 namespace addressbook_web_tests 
 
@@ -100,6 +100,22 @@ namespace addressbook_web_tests
 
             Assert.AreEqual(oldContacts, newContacts);
             
+        }
+        
+        [Test]
+        public void TestDBConnectivity()
+        {
+            DateTime start = DateTime.Now;
+            List<ContactData> fromUi = app.Contact.GetContactList();
+            DateTime end = DateTime.Now;
+            System.Console.WriteLine("Took: " + end.Subtract(start));
+            
+            start = DateTime.Now;
+            AddressBookDB db = new AddressBookDB();
+            List<ContactData> fromDb = (from g in db.Contacts select g).ToList();
+            db.Close();
+            end = DateTime.Now;
+            Console.WriteLine("Took: " + end.Subtract(start));
         }
     }
 }

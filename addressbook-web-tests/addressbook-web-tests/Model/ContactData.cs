@@ -5,11 +5,12 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
+using LinqToDB.Mapping;
 
 
 namespace addressbook_web_tests;
 
-
+[Table(Name = "users")]
 public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
 {
     private string allPhones;
@@ -60,15 +61,37 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
         HomePhone = "";        // или null, если нужно
         WorkPhone = "";
     }
+    
 
+   [Column(Name = "firstname")] 
    public string Name { get; set; }
+   
+   [Column(Name = "lastname")] 
    public string LastName { get; set; }
+   
+   [Column(Name = "phone")] 
    public string HomePhone { get; set; }
+   
+   [Column(Name = "phone")] 
    public string MobilePhone { get; set; }
+   
+   [Column(Name = "phone")] 
    public string WorkPhone { get; set; }
+   
+   
    public string Email1 { get; set; }
    public string Email2 { get; set; }
-
+   
+   [Column(Name = "email")] 
+   public string Email { get; set; }
+   
+   [Column(Name = "address1")] 
+   public string Address { get; set; }
+   
+   [Column(Name = "user_id"), PrimaryKey, Identity] 
+   public string Id { get; set; }
+   
+   
    public string AllPhones
    {
        get
@@ -127,9 +150,7 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
        }
        return Regex.Replace(phone, "[ -()]", "") + "\r\n"; // регулырное выражение лекция5.4
    }
-   public string Email { get; set; }
-   public string Address { get; set; }
-   public string Id { get; set; }
+   
    
    public bool Equals(ContactData other)
     {
