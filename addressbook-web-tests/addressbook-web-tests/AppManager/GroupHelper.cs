@@ -24,10 +24,10 @@ public class GroupHelper : HelperBase
         return this;
     }
     
-    public GroupHelper Modify(int i, GroupData newData)
+    public GroupHelper Modify(GroupData oldData, GroupData newData)
     {
         manager.Navigator.GoToGroupsPage();
-        SelectGroup(i);
+        SelectGroup(oldData.Id);  // выбрать группу по Id
         InitGroupModification();
         FillGroupForm(newData);
         SubmitGroupModification();
@@ -39,6 +39,15 @@ public class GroupHelper : HelperBase
     {
         manager.Navigator.GoToGroupsPage();
         SelectGroup(i);
+        RemoveGroup();
+        ReturnToGroupsPage();
+        return this;
+    }
+    
+    public GroupHelper Remove(GroupData group)
+    {
+        manager.Navigator.GoToGroupsPage();
+        SelectGroup(group.Id);
         RemoveGroup();
         ReturnToGroupsPage();
         return this;
@@ -80,6 +89,12 @@ public class GroupHelper : HelperBase
         _driver.FindElement(By.XPath("//span[" + (index+1) + "]/input")).Click();
         return this;
     }
+    
+    public GroupHelper SelectGroup(String id)
+    {
+        _driver.FindElement(By.XPath($"(//input[@name='selected[]'][@value='{id}'])")).Click();
+        return this;
+    }
 
 
     public GroupHelper ReturnToGroupsPage()
@@ -100,6 +115,8 @@ public class GroupHelper : HelperBase
         _driver.FindElement(By.Name("edit")).Click();
         return this;
     }
+
+    
     
     public int GetGroupCount()
     {
@@ -127,4 +144,6 @@ public class GroupHelper : HelperBase
         }
         return new  List<GroupData>(groupCache);
     }
+
+    
 }

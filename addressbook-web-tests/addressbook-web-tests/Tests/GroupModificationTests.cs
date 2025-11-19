@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 
-
-
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
         [Test]
         public void GroupModificationTest()
@@ -33,26 +31,34 @@ namespace addressbook_web_tests
                 Footer = "footer_name2"
             };
 
-            // Модифицируем первую группу
-            
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            GroupData oldData = oldGroups[0];
-
-            app.Groups.Modify(0, newData);
+            // Получаем список групп до модификации
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeModified = oldGroups[0];
+                
+            app.Groups.Modify(toBeModified, newData);
             
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
             
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            // Получаем список групп после модификации
+            List<GroupData> newGroups = GroupData.GetAll();
+            
+            // Обновляем данные в старом списке
             oldGroups[0].Name = newData.Name;
+            oldGroups[0].Header = newData.Header;
+            oldGroups[0].Footer = newData.Footer;
+            
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
 
+            // Проверяем, что у модифицированной группы изменились данные
             foreach (GroupData group in newGroups)
             {
-                if (group.Id == oldData.Id)
+                if (group.Id == toBeModified.Id)
                 {
                     Assert.AreEqual(newData.Name, group.Name);
+                    Assert.AreEqual(newData.Header, group.Header);
+                    Assert.AreEqual(newData.Footer, group.Footer);
                 }
             }
         }

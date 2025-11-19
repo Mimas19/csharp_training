@@ -54,6 +54,14 @@ public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
         
     }
     
+    public static List<GroupData> GetAll()
+    {
+        using (AddressBookDB db = new AddressBookDB())
+        {
+            return (from g in db.Groups select g).ToList();
+        }
+    }
+    
     [Column(Name = "group_name")] 
     public string Name { get; set; }
     
@@ -65,4 +73,6 @@ public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     
     [Column(Name = "group_id"), PrimaryKey, Identity] 
     public string Id { get; set; }
+    
+    
 }

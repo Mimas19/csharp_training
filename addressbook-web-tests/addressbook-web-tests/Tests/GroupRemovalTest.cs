@@ -4,12 +4,15 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Xml.Serialization;
+using System.Linq;
+using System.IO;
 
 
 namespace addressbook_web_tests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
 
     {
         [Test]
@@ -22,15 +25,15 @@ namespace addressbook_web_tests
                 app.Groups.Create(new GroupData("Test group", "header", "footer"));
             }
             
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
-            
-            app.Groups.Remove(0);
+            List<GroupData> oldGroups = GroupData.GetAll();
+            GroupData toBeRemoved = oldGroups[0];
+                
+            app.Groups.Remove(toBeRemoved);
             
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
             
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             
-            GroupData toBeRemoved = oldGroups[0];
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
 
