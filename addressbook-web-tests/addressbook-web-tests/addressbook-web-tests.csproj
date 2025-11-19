@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="linq2db.MySql" Version="5.4.1.9" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
         <PackageReference Include="NUnit" Version="3.14.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="5.1.0" />
@@ -19,6 +20,21 @@
         <PackageReference Include="Selenium.Support" Version="4.35.0" />
         <PackageReference Include="Selenium.WebDriver" Version="4.35.0" />
         <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="142.0.7444.6100" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="groups.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="contacts.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="groups.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="contacts.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

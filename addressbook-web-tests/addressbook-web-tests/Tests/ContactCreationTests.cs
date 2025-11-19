@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 
 
 namespace addressbook_web_tests 
@@ -29,9 +32,33 @@ namespace addressbook_web_tests
             }
             return contacts;
         }
+
+        public static IEnumerable<ContactData> ContactDataFromFile()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            string[] lines = File.ReadAllLines(@"contacts.csv");
+            foreach (string l in lines)
+            {
+                string[] parts = l.Split(',');
+                contacts.Add(new ContactData(parts[0])
+                {
+                    LastName = parts[1],
+                    Address = parts[2],
+                    Email = parts[3]
+
+                });
+            }
+            return contacts;
+        }
         
+        public static IEnumerable<ContactData> ContactDataFromXmlFile()
+        {
+            return (List<ContactData>)
+                new XmlSerializer(typeof(List<ContactData>))
+                    .Deserialize(new StreamReader(@"contacts.xml"));
+        }
         
-        [Test, TestCaseSource("RandomContactDataProvider")]
+        [Test, TestCaseSource("ContactDataFromXmlFile")]
         public void UserCanLoginAndCreateContacts(ContactData contact)
         {
             app.Navigator.GoToAddressbookEdit();

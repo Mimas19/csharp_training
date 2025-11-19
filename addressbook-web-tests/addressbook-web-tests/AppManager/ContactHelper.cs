@@ -189,16 +189,21 @@ public class ContactHelper : HelperBase
     public string GetContactDetailsStringFromDetailsPage(int index)
     {
         manager.Navigator.OpenHomePage();
-        // Кликаем по иконке человечика и переходим на страницу инфы о контакте
+        // Переход на страницу деталей контакта
         _driver.FindElements(By.XPath("//img[@title='Details']"))[index].Click();
         IWebElement content = _driver.FindElement(By.Id("content"));
         string contentText = content.Text;
 
-        
-        string[] lines = contentText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-        string clean = string.Join("\n", lines.Where(line => !line.Contains("Warning") && !line.Contains("mysqli_query")));
+        // Разбиваю строку на массив без удаления пустых строк
+        string[] lines = contentText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
+
+        // Убираю только строки с предупреждениями, не убирая пустые строки
+        var filtered = lines.Where(line => !line.Contains("Warning") 
+                                           && !line.Contains("mysqli_query") && !string.IsNullOrWhiteSpace(line));
+
+        // Сохраняю перевод строк, включая пустые (двойные) между блоками
+        string clean = string.Join("\n\n", filtered);
         return clean;
     }
     
-
 }

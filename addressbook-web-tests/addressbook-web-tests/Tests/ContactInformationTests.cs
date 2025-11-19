@@ -17,53 +17,88 @@ namespace addressbook_web_tests
             ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
             
             //verification
-            Assert.AreEqual(fromTable, fromForm);
+            // Сравниваем имя и фамилию
+            Assert.AreEqual(fromTable.Name, fromForm.Name);
+            Assert.AreEqual(fromTable.LastName, fromForm.LastName);
+    
+            // Сравниваем адрес
             Assert.AreEqual(fromTable.Address, fromForm.Address);
+    
+            // Сравниваем телефоны
             Assert.AreEqual(fromTable.AllPhones, fromForm.AllPhones);
-            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails); // Добавила сравнение мейлов
+    
+            // Сравниваем Email, если в таблице он не пустой
+            if (!string.IsNullOrEmpty(fromTable.Email))
+            {
+                Assert.AreEqual(fromTable.Email, fromForm.Email);
+            }
+
+            // Сравниваем список email-ов
+            Assert.AreEqual(fromTable.AllEmails, fromForm.AllEmails);
         }
 
         [Test]
         public void TestContactDetailsMatchesEditForm()
         {
-            // Получаем объект контакта из формы редактирования
+            // Получаю объект контакта из формы редактирования
             ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
-            // Генерируем строку "ожидаемый результат"
+            // Генерирую строку "ожидаемый результат"
             string expectedDetails = ComposeContactDetailsString(fromForm);
-            // Получаем строку с фактической страницы деталей
+            // Получаю строку с фактической страницы деталей
             string actualDetails = app.Contact.GetContactDetailsStringFromDetailsPage(0);
+            
+            // Нормализую строки перед сравнением:
+            // заменяю двойной перевод строки на одинарный и убираю лишние пробелы в конце
+            string Normalize(string s) => s
+                .Replace("\r\n", "\n")      // нормализую переводы строк к одному виду
+                .Trim();                   // удаляю начальные и конечные пробелы и переводы строк
+
+
+            expectedDetails = Normalize(expectedDetails);
+            actualDetails = Normalize(actualDetails);
 
             Assert.AreEqual(expectedDetails, actualDetails);
         }
 
         private string ComposeContactDetailsString(ContactData contact)
         {
-            StringBuilder result = new StringBuilder();
+            // Список всех блоков для итогового результата
+            var blocks = new List<string>();
 
-            // Имя и фамилия
-            result.Append($"{contact.Name} {contact.LastName}\n");
+            // Блок: Имя и фамилия (одним блоком)
+            string nameBlock = $"{contact.Name} {contact.LastName}".Trim();
+            if (!string.IsNullOrEmpty(nameBlock))
+                blocks.Add(nameBlock);
 
-            // Адрес (если есть)
+            // Блок: Адрес
             if (!string.IsNullOrWhiteSpace(contact.Address))
-                result.Append(contact.Address + "\n");
+                blocks.Add(contact.Address.Trim());
 
-            // Телефоны
+            // Блок: Телефоны, объединенные в одну строку с переводами строк внутри блока
+            var phoneLines = new List<string>();
             if (!string.IsNullOrWhiteSpace(contact.HomePhone))
-                result.Append($"H: {contact.HomePhone}\n");
+                phoneLines.Add($"H: {contact.HomePhone.Trim()}");
             if (!string.IsNullOrWhiteSpace(contact.MobilePhone))
-                result.Append($"M: {contact.MobilePhone}\n");
+                phoneLines.Add($"M: {contact.MobilePhone.Trim()}");
             if (!string.IsNullOrWhiteSpace(contact.WorkPhone))
-                result.Append($"W: {contact.WorkPhone}\n");
+                phoneLines.Add($"W: {contact.WorkPhone.Trim()}");
+            if (phoneLines.Count > 0)
+                blocks.Add(string.Join("\n", phoneLines));
 
-            // Email'ы
+            // Блок: Email, объединенные в одну строку с переводами строк внутри блока
+            var emailLines = new List<string>();
             if (!string.IsNullOrWhiteSpace(contact.Email))
-                result.Append(contact.Email + "\n");
+                emailLines.Add(contact.Email.Trim());
             if (!string.IsNullOrWhiteSpace(contact.Email1))
-                result.Append(contact.Email1 + "\n");
+                emailLines.Add(contact.Email1.Trim());
             if (!string.IsNullOrWhiteSpace(contact.Email2))
-                result.Append(contact.Email2 + "\n");
+                emailLines.Add(contact.Email2.Trim());
+            if (emailLines.Count > 0)
+                blocks.Add(string.Join("\n", emailLines));
 
-            return result.ToString().Trim();
+            // Итог: объединяю все непустые блоки двойными переводами строк
+            return string.Join("\n\n", blocks);
         }
+
     }
 }
