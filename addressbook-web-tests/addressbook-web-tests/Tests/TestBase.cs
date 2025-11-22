@@ -6,7 +6,7 @@ namespace addressbook_web_tests;
 
 public class TestBase
 {
-    public static bool PERFORM_LONG_UI_CHECKS = false; // false для отключения сравнения с БД
+    public static bool PERFORM_LONG_UI_CHECKS = true; // false для отключения сравнения с БД
     protected ApplicationManager app;
     
     [SetUp]

@@ -107,5 +107,6 @@ namespace addressbook_web_tests
             end = DateTime.Now;
             Console.WriteLine("Took: " + end.Subtract(start));
         }
+        
     }
 }

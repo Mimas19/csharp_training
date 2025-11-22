@@ -10,7 +10,7 @@ using LinqToDB.Mapping;
 
 namespace addressbook_web_tests;
 
-[Table(Name = "users")]
+[Table(Name = "addressbook")]
 public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
 {
     private string allPhones;
@@ -69,13 +69,13 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
    [Column(Name = "lastname")] 
    public string LastName { get; set; }
    
-   [Column(Name = "phone")] 
+   [Column(Name = "home")] 
    public string HomePhone { get; set; }
    
-   [Column(Name = "phone")] 
+   [Column(Name = "mobile")] 
    public string MobilePhone { get; set; }
    
-   [Column(Name = "phone")] 
+   [Column(Name = "work")] 
    public string WorkPhone { get; set; }
    
    
@@ -85,10 +85,10 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
    [Column(Name = "email")] 
    public string Email { get; set; }
    
-   [Column(Name = "address1")] 
+   [Column(Name = "address")] 
    public string Address { get; set; }
    
-   [Column(Name = "user_id"), PrimaryKey, Identity] 
+   [Column(Name = "id"), PrimaryKey, Identity] 
    public string Id { get; set; }
    
    
