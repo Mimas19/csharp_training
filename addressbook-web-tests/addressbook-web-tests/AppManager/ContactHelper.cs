@@ -205,5 +205,35 @@ public class ContactHelper : HelperBase
         string clean = string.Join("\n\n", filtered);
         return clean;
     }
-    
+
+    public void AddContactToGroup(ContactData contact, GroupData group)
+    {
+        manager.Navigator.OpenHomePage();
+        ClearGroupFilter();
+        SelectContact(contact.Id);
+        SelectGroupToAdd(group.Name);
+        CommitAddingContactToGroup();
+        new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
+            .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+    }
+
+    public void CommitAddingContactToGroup()
+    {
+        _driver.FindElement(By.Name("add")).Click();
+    }
+
+    public void SelectGroupToAdd(string name)
+    {
+        new SelectElement(_driver.FindElement(By.Name("to_group"))).SelectByText(name);
+    }
+
+    public void SelectContact(string contactId)
+    {
+        _driver.FindElement(By.Id(contactId)).Click();
+    }
+
+    public void ClearGroupFilter()
+    {
+        new SelectElement(_driver.FindElement(By.Name("group"))).SelectByText("[all]");
+    }
 }
