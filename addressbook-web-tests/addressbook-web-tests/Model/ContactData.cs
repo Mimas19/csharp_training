@@ -210,5 +210,12 @@ public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
         // Пустой конструктор нужен для XML сериализации
     }
 
-    
+    public static List<ContactData> GetAll()
+    {
+        using (AddressBookDB db = new AddressBookDB())
+        {
+            return (from c in db.Contacts select c).ToList();
+        }
+    }
+
 }
