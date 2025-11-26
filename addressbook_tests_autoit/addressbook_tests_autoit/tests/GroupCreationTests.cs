@@ -1,18 +1,12 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using NUnit.Framework;
 using static NUnit.Framework.Assert;
-using NUnit.Framework;
-
 
 namespace addressbook_tests_autoit
 {
     [TestFixture]
     public class GroupCreationTests : TestBase
     {
-        
         [Test]
         public void TestGroupCreation()
         {
@@ -31,5 +25,6 @@ namespace addressbook_tests_autoit
             newGroups.Sort();
             
             AreEqual(oldGroups, newGroups);
+        }
     }
 }

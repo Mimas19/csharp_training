@@ -1,28 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
-
+﻿using NUnit.Framework;
 
 namespace addressbook_tests_autoit
 {
     public class TestBase
     {
-      ApplicationManager app;  
-        
-      [OneTimeSetUp]
-      public void initApplication()
-      {
-          app = new ApplicationManager();
-      }
+        protected ApplicationManager app;
 
-      [OneTimeTearDown]
-      public void stopApplication()
-      {
-          app.Stop();
-      }
+        [OneTimeSetUp]
+        public void InitApplication()
+        {
+            app = new ApplicationManager();
+        }
+
+        [OneTimeTearDown]
+        public void StopApplication()
+        {
+            app.Stop();
+        }
     }
 }
-

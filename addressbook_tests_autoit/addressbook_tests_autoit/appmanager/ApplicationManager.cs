@@ -1,50 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
-using AutoItX3Lib;
+using System.Diagnostics;
+using AutoIt;
 
 namespace addressbook_tests_autoit
 {
     public class ApplicationManager
     {
         public static string WINTITLE = "Free Address Book";
-        private AutoItX3 aux;
         private GroupHelper groupHelper;
+
         public ApplicationManager()
         {
-            aux = new AutoItX3();
-            aux.Run(@"C:\Users\mislimova\Downloads\FreeAddressBookPortable", "", aux.SW_SHOW);
-            aux.WinWait(WINTITLE);
-            aux.WinActivate(WINTITLE);
-            aux.WinWaitActive(WINTITLE);
-            
+            // Запуск приложения через Process.Start
+            Process.Start(@"C:\Users\mislimova\Downloads\FreeAddressBookPortable");
+
+            AutoItX.WinWait(WINTITLE);
+            AutoItX.WinActivate(WINTITLE);
+            AutoItX.WinWaitActive(WINTITLE);
+
             groupHelper = new GroupHelper(this);
         }
 
         public void Stop()
         {
-            aux.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d510");
+            AutoItX.ControlClick(WINTITLE, "", "WindowsForms10.BUTTON.app.0.2c908d510");
         }
 
         public GroupHelper Groups
         {
-            get
-            {
-                return groupHelper;
-            }
-        }
-
-        public AutoItX3 Aux
-        {
-            get
-            {
-                return aux;
-            }
+            get { return groupHelper; }
         }
     }
-
-   
 }

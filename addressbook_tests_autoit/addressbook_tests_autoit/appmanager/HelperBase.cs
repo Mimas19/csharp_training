@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using static NUnit.Framework.Assert;
-using NUnit.Framework;
-using AutoItX3Lib;
+﻿using AutoIt;
 
 namespace addressbook_tests_autoit
 {
@@ -13,15 +6,11 @@ namespace addressbook_tests_autoit
     {
         protected ApplicationManager manager;
         protected string WINTITLE;
-        protected AutoItX3 aux;
-        
 
         public HelperBase(ApplicationManager manager)
         {
             this.manager = manager;
-            this.aux = manager.Aux;
             WINTITLE = ApplicationManager.WINTITLE;
         }
-    
     }
 }
