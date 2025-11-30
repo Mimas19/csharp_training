@@ -3,6 +3,13 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
 using OpenQA.Selenium.Support.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 
 namespace addressbook_web_tests;
 
@@ -144,6 +151,22 @@ public class GroupHelper : HelperBase
         }
         return new  List<GroupData>(groupCache);
     }
+    
+    public GroupHelper GroupExistenceCheck()
+    {
+        manager.Navigator.GoToGroupsPage();
+        if (! IsGroupExist())
+        {
+            GroupData group = new GroupData("AutoName", "AutoHeader", "AutoFooter");
+            Create(group);
+        }
+        return this;
+    }
+    public bool IsGroupExist()
+    {
+        return IsElementPresent(By.ClassName("group"));
+    }
+
 
     
 }

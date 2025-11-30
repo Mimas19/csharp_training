@@ -9,6 +9,7 @@ using System.Threading;
 using OpenQA.Selenium;
 
 
+
 namespace addressbook_web_tests;
 
 public class ContactHelper : HelperBase
@@ -256,5 +257,28 @@ public class ContactHelper : HelperBase
     {
         _driver.FindElement(By.Name("delete")).Click();
     }
-    
+    public ContactHelper ContactExistanceCheck()
+    {
+        manager.Navigator.OpenHomePage();
+        if (! IsContactExist())
+        {
+            ContactData contact = new ContactData("AutoFirstName", "AutoLastName");
+            CreateContact(contact);
+        }
+        return this;
+    }
+    public bool IsContactExist()
+    {
+        return IsElementPresent(By.Name("entry"));
+    }
+
+    public void ContactInGroupCheck(GroupData group)
+    {
+        manager.Navigator.OpenHomePage();
+        if (group.GetContacts().Count() == 0)
+        {
+            ContactData contact = ContactData.GetAll()[0];
+            AddContactToGroup(contact, group);
+        }
+    }
 }
