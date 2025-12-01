@@ -18,7 +18,7 @@ namespace mantis_tests
 
         public void OpenSiteInformation()
         {
-            if (driver.Url == baseURL + "mantisbt-2.22.1/manage_overview_page.php"
+            if (driver.Url == baseURL + "mantisbt-2.26.3/manage_overview_page.php"
                 && IsElementPresent(By.XPath("//th[@class='category' and contains(text(), 'Версия MantisBT')]")))
             {
                 return;
@@ -28,7 +28,7 @@ namespace mantis_tests
 
         internal void OpenManageProject()
         {
-            if (driver.Url == baseURL + "mantisbt-2.22.1/manage_proj_page.php"
+            if (driver.Url == baseURL + "mantisbt-2.26.3/manage_proj_page.php"
                 && IsElementPresent(By.XPath("//button[@type='submit' and contains(text(), 'Создать новый проект')]")))
             {
                 return;

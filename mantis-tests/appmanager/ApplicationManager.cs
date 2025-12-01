@@ -69,7 +69,7 @@ namespace mantis_tests
             if (! app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
-                newInstance._driver.Url = newInstance._baseUrl + "/login/page/php";
+                newInstance._driver.Url = newInstance._baseUrl + "login_page.php";
                 app.Value = newInstance;
             }
             return app.Value;
