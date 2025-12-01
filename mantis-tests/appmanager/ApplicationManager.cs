@@ -24,8 +24,14 @@ namespace mantis_tests
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
-            Mail = new MailHelper(this);            
+            Mail = new MailHelper(this);     
+            Project = new ProjectHelper(this);
+            ManagementMenu = new ManagementMenuHelper(this, _baseUrl);
+            
         }
+        
+        public ManagementMenuHelper ManagementMenu { get;  set; }
+        public ProjectHelper Project { get; set; }
 
         public MailHelper Mail { get; set; }
 
