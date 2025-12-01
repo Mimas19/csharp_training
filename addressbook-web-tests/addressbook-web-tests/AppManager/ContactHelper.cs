@@ -241,12 +241,15 @@ public class ContactHelper : HelperBase
     public void RemoveContactFromGroup(ContactData contact, GroupData group)
     {
         manager.Navigator.OpenHomePage();
-        ClearGroupFilter();
+        SetGroupFilter(group.Name);
         SelectContact(contact.Id);
-        SelectContactInGroup(contact.Id);
         CommitRemovingContactFromGroup();
         new WebDriverWait(_driver, TimeSpan.FromSeconds(10))
             .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+    }
+    public void SetGroupFilter(string name)
+    {
+        new SelectElement(_driver.FindElement(By.Name("group"))).SelectByText(name);
     }
     private void SelectContactInGroup(string contactId)
     {
