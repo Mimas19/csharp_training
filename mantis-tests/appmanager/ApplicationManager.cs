@@ -20,20 +20,16 @@ namespace mantis_tests
         {
             _driver = new ChromeDriver();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
-            _baseUrl = "http://localhost/mantisbt-2.26.3";
+            _baseUrl = "http://localhost/";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);     
             Project = new ProjectHelper(this);
             ManagementMenu = new ManagementMenuHelper(this, _baseUrl);
-            Admin = new AdminHelper(this, _baseUrl);
-            API = new APIHelper(this);
-
+            
         }
-
-        public AdminHelper Admin { get; set; }
-
+        
         public ManagementMenuHelper ManagementMenu { get;  set; }
         public ProjectHelper Project { get; set; }
 

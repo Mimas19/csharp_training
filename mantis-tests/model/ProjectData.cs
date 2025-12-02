@@ -10,8 +10,7 @@ namespace mantis_tests
     {
         public string Name { get; set; }
         public string Id { get;  set; }
-        public string Description { get; set; }
-        
+
         public ProjectData() { }
 
         public ProjectData(string name)

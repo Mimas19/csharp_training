@@ -14,16 +14,11 @@ namespace mantis_tests
             Password = password;
             Email = email;
         }
-        public AccountData(string name, string password) 
-        {
-            Name = name;
-            Password = password;
-        }
+        
         public AccountData() {}  // добавила
         
         public string Name { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
-        public string Id { get; set; }
     }
 }
