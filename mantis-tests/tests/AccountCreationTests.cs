@@ -11,28 +11,21 @@ namespace mantis_tests
     [TestFixture]
     public class AccountCreationTests : TestBase
     {
-        [SetUp]
-        public void SetupConfig()
+        [OneTimeSetUp]
+        public void SetUpConfig()
         {
-            // Бэкап текущей конфигурации
-            app.Ftp.BackupFile("/config_inc.php");
-            
-            using (Stream localFile = File.Open("/config_defaults_inc.php", FileMode.Open))
+            app.Ftp.BackupFile("/config/config_inc.php");
+            using (Stream localFile = File.Open("config_inc.php", FileMode.Open))
             {
-                app.Ftp.Upload("/config_defaults_inc.php", localFile);
+                app.Ftp.Upload("config_inc.php", localFile);
             }
         }
         
-        [TearDown]  // Выполняется после каждого теста
-        public void RestoreConfig()
-        {
-            app.Ftp.RestoreBackupFile("/config_inc.php");
-        }
 
         [Test]
         public void TestAccountRegistration()
         {
-            AccountData account = new AccountData() 
+            AccountData account = new AccountData()
             {
                 Name = "testuser",
                 Password = "password",
@@ -41,10 +34,15 @@ namespace mantis_tests
 
             app.James.Delete(account);
             app.James.Add(account);
-            
+
             app.Registration.Register(account);
-
         }
-
+        
+        [OneTimeTearDown]
+        public void RestoreConfig()
+        {
+            app.Ftp.RestoreBackupFile("\"config_inc.php");
+        }
     }
+
 }

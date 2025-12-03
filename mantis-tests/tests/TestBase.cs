@@ -12,7 +12,7 @@ namespace mantis_tests
         public static bool PERFORM_LONG_UI_CHECKS = true; // false для отключения сравнения с БД
         protected ApplicationManager app;
     
-        [SetUp]
+        [OneTimeSetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();

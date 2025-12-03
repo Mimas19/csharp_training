@@ -48,7 +48,7 @@ namespace mantis_tests
 
         public void OpenRegistrationForm()
         {
-            driver.FindElement(By.LinkText("Signup for a new account")).Click();
+            driver.FindElement(By.XPath("//a[@class='back-to-login-link pull-left' and @href='signup_page.php']")).Click();
         }
 
         public void FillRegistrationForm(AccountData account)
