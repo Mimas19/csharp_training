@@ -8,6 +8,7 @@ namespace addressbook_tests_autoit
     {
         public static string WINTITLE = "Free Address Book";
         private GroupHelper groupHelper;
+        private ContactHelper contactHelper;
 
         public ApplicationManager()
         {
@@ -30,5 +31,13 @@ namespace addressbook_tests_autoit
         {
             get { return groupHelper; }
         }
+        public ContactHelper Contacts
+        {
+            get
+            {
+                return contactHelper;
+            }
+        }
+
     }
 }
