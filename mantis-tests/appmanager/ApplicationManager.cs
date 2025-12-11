@@ -77,6 +77,7 @@ namespace mantis_tests
                 return _driver;
             }
         }
+        public LoginHelper Login { get; set; } 
         
     } 
 }

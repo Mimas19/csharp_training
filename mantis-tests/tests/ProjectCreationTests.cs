@@ -21,6 +21,14 @@ namespace mantis_tests
 
             return contacts;
         }
+        
+        [SetUp]
+        public void LoginBeforeTest()
+        {
+            AccountData admin = new AccountData("administrator", "root", "admin@localhost.localdomain");
+            app.Login.Login(admin);
+        }
+
 
         [Test, TestCaseSource("RandomProjectDataProvider")]
 

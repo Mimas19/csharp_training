@@ -9,6 +9,14 @@ namespace mantis_tests
     [TestFixture]
     public class ProjectRemoving : TestBase
     {
+        [SetUp]
+        public void LoginBeforeTest()
+        {
+            AccountData admin = new AccountData("administrator", "root", "admin@localhost.localdomain");
+            app.Login.Login(admin);
+        }
+
+        
         [Test]
         public void ProjectRemoveTest()
         {
